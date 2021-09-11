@@ -1,4 +1,8 @@
-**此项目为RuoYi-Vue集成cas。**
+#  项目简介
+
+此项目为RuoYi-Vue集成cas。
+
+# 集成步骤
 
 ## 一、后端配置
 
@@ -929,3 +933,4 @@ export default {
 casEnable设置为false，则不启用cas登录。
 
 前后端配置casEnable需要保持一致。
+
