@@ -1,3 +1,5 @@
+**此项目为RuoYi-Vue集成cas。**
+
 ## 一、后端配置
 
 ### 1、添加cas依赖
@@ -619,7 +621,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
 完整代码：[ RuoYi-Vue集成cas ](https://gitee.com/ggxforever/RuoYi-Vue-cas)
 
-![1631356596644](1631356596644.png)
+![1631356596644](https://gitee.com/ggxforever/ImageBed/raw/master/RuoYi-Vue-cas/1631356596644.png)
 
 ## 二、前端配置
 
@@ -918,13 +920,12 @@ export default {
 
 完整代码：[ RuoYi-Vue集成cas ](https://gitee.com/ggxforever/RuoYi-Vue-cas)
 
-![1631357903966](1631357903966.png)
+![1631357903966](https://gitee.com/ggxforever/ImageBed/raw/master/RuoYi-Vue-cas/1631357903966.png)
 
-![1631357979941](1631357979941.png)
+![1631357979941](https://gitee.com/ggxforever/ImageBed/raw/master/RuoYi-Vue-cas/1631357979941.png)
 
 ### 6、关闭cas
 
 casEnable设置为false，则不启用cas登录。
 
 前后端配置casEnable需要保持一致。
-
