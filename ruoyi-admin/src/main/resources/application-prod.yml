@@ -1,0 +1,32 @@
+# 生产环境配置
+server:
+  # 服务器的HTTP端口
+  port: 82
+#CAS
+cas:
+  server:
+    host:
+      #CAS服务地址
+      url: https://authserver.sandau.edu.cn/authserver
+app:
+  #开启cas
+  casEnable: true
+  server:
+    host:
+      url: http://10.200.11.73:${server.port}
+  #应用登录地址
+  login_url: /
+  #应用登出地址
+  logout_url: /logout
+  #前端登录地址
+  web_url: http://10.200.11.73:81/index
+
+# 数据源配置
+spring:
+  datasource:
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://10.200.11.72:3306/ry-vue-cas?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: root
