@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.EduStudentMapper">
+    
+    <resultMap type="EduStudent" id="EduStudentResult">
+        <result property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="studentCode"    column="student_code"    />
+        <result property="className"    column="class_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEduStudentVo">
+        select student_id, student_name, student_code, class_name, dept_id, create_by, create_time, update_by, update_time from edu_student
+    </sql>
+
+    <select id="selectEduStudentList" parameterType="EduStudent" resultMap="EduStudentResult">
+        <include refid="selectEduStudentVo"/>
+        <where>  
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+            <if test="studentCode != null  and studentCode != ''"> and student_code = #{studentCode}</if>
+            <if test="className != null  and className != ''"> and class_name like concat('%', #{className}, '%')</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduStudentByStudentId" parameterType="Long" resultMap="EduStudentResult">
+        <include refid="selectEduStudentVo"/>
+        where student_id = #{studentId}
+    </select>
+        
+    <insert id="insertEduStudent" parameterType="EduStudent" useGeneratedKeys="true" keyProperty="studentId">
+        insert into edu_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentName != null">student_name,</if>
+            <if test="studentCode != null">student_code,</if>
+            <if test="className != null">class_name,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentName != null">#{studentName},</if>
+            <if test="studentCode != null">#{studentCode},</if>
+            <if test="className != null">#{className},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduStudent" parameterType="EduStudent">
+        update edu_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="studentCode != null">student_code = #{studentCode},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where student_id = #{studentId}
+    </update>
+
+    <delete id="deleteEduStudentByStudentId" parameterType="Long">
+        delete from edu_student where student_id = #{studentId}
+    </delete>
+
+    <delete id="deleteEduStudentByStudentIds" parameterType="String">
+        delete from edu_student where student_id in 
+        <foreach item="studentId" collection="array" open="(" separator="," close=")">
+            #{studentId}
+        </foreach>
+    </delete>
+</mapper>
