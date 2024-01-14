@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.EduAuthorityMapper">
+    
+    <resultMap type="EduAuthority" id="EduAuthorityResult">
+        <result property="authorityId"    column="authority_id"    />
+        <result property="authorityName"    column="authority_name"    />
+    </resultMap>
+
+    <sql id="selectEduAuthorityVo">
+        select authority_id, authority_name from edu_authority
+    </sql>
+
+    <select id="selectEduAuthorityList" parameterType="EduAuthority" resultMap="EduAuthorityResult">
+        <include refid="selectEduAuthorityVo"/>
+        <where>  
+            <if test="authorityName != null  and authorityName != ''"> and authority_name like concat('%', #{authorityName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAuthorityByAuthorityId" parameterType="Long" resultMap="EduAuthorityResult">
+        <include refid="selectEduAuthorityVo"/>
+        where authority_id = #{authorityId}
+    </select>
+        
+    <insert id="insertEduAuthority" parameterType="EduAuthority" useGeneratedKeys="true" keyProperty="authorityId">
+        insert into edu_authority
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="authorityName != null">authority_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="authorityName != null">#{authorityName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAuthority" parameterType="EduAuthority">
+        update edu_authority
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="authorityName != null">authority_name = #{authorityName},</if>
+        </trim>
+        where authority_id = #{authorityId}
+    </update>
+
+    <delete id="deleteEduAuthorityByAuthorityId" parameterType="Long">
+        delete from edu_authority where authority_id = #{authorityId}
+    </delete>
+
+    <delete id="deleteEduAuthorityByAuthorityIds" parameterType="String">
+        delete from edu_authority where authority_id in 
+        <foreach item="authorityId" collection="array" open="(" separator="," close=")">
+            #{authorityId}
+        </foreach>
+    </delete>
+</mapper>
