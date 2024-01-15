@@ -22,13 +22,13 @@ public class EduCertificate extends BaseEntity
 
     /** 学生ID */
     @Excel(name = "学生ID")
-    private String studentId;
+    private Long studentId;
 
     private EduStudent student;
 
     /** 认证机构ID */
     @Excel(name = "认证机构ID")
-    private String authorityId;
+    private Long authorityId;
 
     private EduAuthority authority;
 
@@ -54,21 +54,21 @@ public class EduCertificate extends BaseEntity
     {
         return certificateId;
     }
-    public void setStudentId(String studentId) 
+    public void setStudentId(Long studentId) 
     {
         this.studentId = studentId;
     }
 
-    public String getStudentId() 
+    public Long getStudentId() 
     {
         return studentId;
     }
-    public void setAuthorityId(String authorityId) 
+    public void setAuthorityId(Long authorityId) 
     {
         this.authorityId = authorityId;
     }
 
-    public String getAuthorityId() 
+    public Long getAuthorityId() 
     {
         return authorityId;
     }

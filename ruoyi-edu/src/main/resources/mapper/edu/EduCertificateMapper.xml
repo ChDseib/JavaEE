@@ -39,10 +39,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectEduCertificateList" parameterType="EduCertificate" resultMap="EduCertificateResult">
         <include refid="selectEduCertificateVo"/>
         <where>  
-            <if test="studentId != null  and studentId != ''"> and c.student_id = #{studentId}</if>
-            <if test="authorityId != null  and authorityId != ''"> and c.authority_id = #{authorityId}</if>
-            <if test="certificateName != null  and certificateName != ''"> and c.certificate_name like concat('%', #{certificateName}, '%')</if>
-            <if test="issueTime != null "> and c.issue_time = #{issueTime}</if>
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="authorityId != null "> and authority_id = #{authorityId}</if>
+            <if test="certificateName != null  and certificateName != ''"> and certificate_name like concat('%', #{certificateName}, '%')</if>
+            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
         </where>
     </select>
     
@@ -51,10 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where c.certificate_id = #{certificateId}
     </select>
         
-    <insert id="insertEduCertificate" parameterType="EduCertificate">
+    <insert id="insertEduCertificate" parameterType="EduCertificate" useGeneratedKeys="true" keyProperty="certificateId">
         insert into edu_certificate
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="certificateId != null">certificate_id,</if>
             <if test="studentId != null">student_id,</if>
             <if test="authorityId != null">authority_id,</if>
             <if test="certificateName != null">certificate_name,</if>
@@ -66,7 +65,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="certificateId != null">#{certificateId},</if>
             <if test="studentId != null">#{studentId},</if>
             <if test="authorityId != null">#{authorityId},</if>
             <if test="certificateName != null">#{certificateName},</if>
