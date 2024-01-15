@@ -1,14 +1,20 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="学生ID" prop="studentId">
-        <el-input
-          v-model="queryParams.studentId"
-          placeholder="请输入学生ID"
+      <el-form-item label="学生" prop="studentId">
+        <el-select v-model="queryParams.studentId" placeholder="请输入姓名"
+          filterable
           clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+          remote
+          :remote-method="searchStudent"
+          :loading="loading">
+          <el-option
+            v-for="item in studentOptions"
+            :key="item.studentId"
+            :label="item.studentName"
+            :value="item.studentId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="认证机构ID" prop="authorityId">
         <el-input
@@ -133,7 +139,7 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="学生" prop="studentId">
-          <el-select v-model="form.studentId" placeholder="请输入关键词"
+          <el-select v-model="form.studentId" placeholder="请输入姓名"
             filterable
             remote
             reserve-keyword
