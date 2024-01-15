@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.EduCertificateMapper">
+    
+    <resultMap type="EduCertificate" id="EduCertificateResult">
+        <result property="certificateId"    column="certificate_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="authorityId"    column="authority_id"    />
+        <result property="certificateName"    column="certificate_name"    />
+        <result property="issueTime"    column="issue_time"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEduCertificateVo">
+        select certificate_id, student_id, authority_id, certificate_name, issue_time, file_url, create_by, create_time, update_by, update_time from edu_certificate
+    </sql>
+
+    <select id="selectEduCertificateList" parameterType="EduCertificate" resultMap="EduCertificateResult">
+        <include refid="selectEduCertificateVo"/>
+        <where>  
+            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
+            <if test="authorityId != null  and authorityId != ''"> and authority_id = #{authorityId}</if>
+            <if test="certificateName != null  and certificateName != ''"> and certificate_name like concat('%', #{certificateName}, '%')</if>
+            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduCertificateByCertificateId" parameterType="Long" resultMap="EduCertificateResult">
+        <include refid="selectEduCertificateVo"/>
+        where certificate_id = #{certificateId}
+    </select>
+        
+    <insert id="insertEduCertificate" parameterType="EduCertificate">
+        insert into edu_certificate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="certificateId != null">certificate_id,</if>
+            <if test="studentId != null">student_id,</if>
+            <if test="authorityId != null">authority_id,</if>
+            <if test="certificateName != null">certificate_name,</if>
+            <if test="issueTime != null">issue_time,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="certificateId != null">#{certificateId},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="authorityId != null">#{authorityId},</if>
+            <if test="certificateName != null">#{certificateName},</if>
+            <if test="issueTime != null">#{issueTime},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduCertificate" parameterType="EduCertificate">
+        update edu_certificate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="authorityId != null">authority_id = #{authorityId},</if>
+            <if test="certificateName != null">certificate_name = #{certificateName},</if>
+            <if test="issueTime != null">issue_time = #{issueTime},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where certificate_id = #{certificateId}
+    </update>
+
+    <delete id="deleteEduCertificateByCertificateId" parameterType="Long">
+        delete from edu_certificate where certificate_id = #{certificateId}
+    </delete>
+
+    <delete id="deleteEduCertificateByCertificateIds" parameterType="String">
+        delete from edu_certificate where certificate_id in 
+        <foreach item="certificateId" collection="array" open="(" separator="," close=")">
+            #{certificateId}
+        </foreach>
+    </delete>
+</mapper>
