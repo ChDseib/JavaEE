@@ -24,9 +24,13 @@ public class EduCertificate extends BaseEntity
     @Excel(name = "学生ID")
     private String studentId;
 
+    private EduStudent student;
+
     /** 认证机构ID */
     @Excel(name = "认证机构ID")
     private String authorityId;
+
+    private EduAuthority authority;
 
     /** 证书名称 */
     @Excel(name = "证书名称")
@@ -94,6 +98,22 @@ public class EduCertificate extends BaseEntity
     public String getFileUrl() 
     {
         return fileUrl;
+    }
+
+    public EduStudent getStudent() {
+        return student;
+    }
+
+    public void setStudent(EduStudent student) {
+        this.student = student;
+    }
+
+    public EduAuthority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(EduAuthority authority) {
+        this.authority = authority;
     }
 
     @Override

@@ -15,25 +15,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <association property="student"    javaType="EduStudent"    resultMap="studentResult"   />
+        <association property="authority"    javaType="EduAuthority"    resultMap="authorityResult"   />
+    </resultMap>
+
+    <resultMap id="studentResult" type="EduStudent">
+        <id     property="studentId"       column="student_id"     />
+        <result property="studentName"     column="student_name"   />
+    </resultMap>
+
+    <resultMap id="authorityResult" type="EduAuthority">
+        <id     property="authorityId"       column="authority_id"     />
+        <result property="authorityName"     column="authority_name"   />
     </resultMap>
 
     <sql id="selectEduCertificateVo">
-        select certificate_id, student_id, authority_id, certificate_name, issue_time, file_url, create_by, create_time, update_by, update_time from edu_certificate
+        select c.certificate_id, c.student_id, s.student_name, c.authority_id, a.authority_name, c.certificate_name, c.issue_time, c.file_url, c.create_by, c.create_time, c.update_by, c.update_time
+        from edu_certificate c
+            left join edu_student s on c.student_id = s.student_id
+            left join edu_authority a on c.authority_id = a.authority_id
     </sql>
 
     <select id="selectEduCertificateList" parameterType="EduCertificate" resultMap="EduCertificateResult">
         <include refid="selectEduCertificateVo"/>
         <where>  
-            <if test="studentId != null  and studentId != ''"> and student_id = #{studentId}</if>
-            <if test="authorityId != null  and authorityId != ''"> and authority_id = #{authorityId}</if>
-            <if test="certificateName != null  and certificateName != ''"> and certificate_name like concat('%', #{certificateName}, '%')</if>
-            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
+            <if test="studentId != null  and studentId != ''"> and c.student_id = #{studentId}</if>
+            <if test="authorityId != null  and authorityId != ''"> and c.authority_id = #{authorityId}</if>
+            <if test="certificateName != null  and certificateName != ''"> and c.certificate_name like concat('%', #{certificateName}, '%')</if>
+            <if test="issueTime != null "> and c.issue_time = #{issueTime}</if>
         </where>
     </select>
     
     <select id="selectEduCertificateByCertificateId" parameterType="Long" resultMap="EduCertificateResult">
         <include refid="selectEduCertificateVo"/>
-        where certificate_id = #{certificateId}
+        where c.certificate_id = #{certificateId}
     </select>
         
     <insert id="insertEduCertificate" parameterType="EduCertificate">
