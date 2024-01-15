@@ -120,7 +120,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -132,8 +132,20 @@
     <!-- 添加或修改学生证书对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="学生ID" prop="studentId">
-          <el-input v-model="form.studentId" placeholder="请输入学生ID" />
+        <el-form-item label="学生" prop="studentId">
+          <el-select v-model="form.studentId" placeholder="请输入关键词"
+            filterable
+            remote
+            reserve-keyword
+            :remote-method="searchStudent"
+            :loading="loading">
+            <el-option
+              v-for="item in studentOptions"
+              :key="item.studentId"
+              :label="item.studentName"
+              :value="item.studentId">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="认证机构" prop="authorityId">
           <el-select v-model="form.authorityId" placeholder="请选择认证机构">
@@ -170,6 +182,7 @@
 
 <script>
 import { listCertificate, getCertificate, delCertificate, addCertificate, updateCertificate, exportCertificate } from "@/api/edu/certificate";
+import { listStudent } from "@/api/edu/student";
 
 export default {
   name: "Certificate",
@@ -204,6 +217,8 @@ export default {
         certificateName: null,
         issueTime: null,
       },
+      // 学生选项
+      studentOptions: [],
       // 认证机构选项
       authorityOptions: [],
       // 表单参数
@@ -217,6 +232,21 @@ export default {
     this.getList();
   },
   methods: {
+    searchStudent(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          listStudent({ studentName: query }).then(response => {
+            this.studentOptions = response.rows.filter(item => {
+              return item.studentName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            });
+            this.loading = false;
+          });
+        }, 200);
+      } else {
+        this.studentOptions = [];
+      }
+    },
     /** 查询学生证书列表 */
     getList() {
       this.loading = true;
