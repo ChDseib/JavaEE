@@ -58,4 +58,6 @@ public interface IEduAuthorityService
      * @return 结果
      */
     public int deleteEduAuthorityByAuthorityId(Long authorityId);
+
+    public List<EduAuthority> selectEduAuthorityAll();
 }

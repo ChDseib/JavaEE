@@ -90,4 +90,9 @@ public class EduAuthorityServiceImpl implements IEduAuthorityService
     {
         return eduAuthorityMapper.deleteEduAuthorityByAuthorityId(authorityId);
     }
+
+    @Override
+    public List<EduAuthority> selectEduAuthorityAll() {
+        return eduAuthorityMapper.selectEduAuthorityAll();
+    }
 }

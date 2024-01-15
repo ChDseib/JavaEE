@@ -19,7 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="authorityName != null  and authorityName != ''"> and authority_name like concat('%', #{authorityName}, '%')</if>
         </where>
     </select>
-    
+
+    <select id="selectEduAuthorityAll" resultMap="EduAuthorityResult">
+        <include refid="selectEduAuthorityVo"/>
+    </select>
+
     <select id="selectEduAuthorityByAuthorityId" parameterType="Long" resultMap="EduAuthorityResult">
         <include refid="selectEduAuthorityVo"/>
         where authority_id = #{authorityId}

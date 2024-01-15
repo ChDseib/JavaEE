@@ -1,6 +1,8 @@
 package com.ruoyi.edu.controller;
 
 import java.util.List;
+
+import com.ruoyi.edu.service.IEduAuthorityService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,9 @@ public class EduCertificateController extends BaseController
 {
     @Autowired
     private IEduCertificateService eduCertificateService;
+
+    @Autowired
+    private IEduAuthorityService eduAuthorityService;
 
     /**
      * 查询学生证书列表
@@ -65,7 +70,10 @@ public class EduCertificateController extends BaseController
     @GetMapping(value = "/{certificateId}")
     public AjaxResult getInfo(@PathVariable("certificateId") Long certificateId)
     {
-        return AjaxResult.success(eduCertificateService.selectEduCertificateByCertificateId(certificateId));
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put(AjaxResult.DATA_TAG, eduCertificateService.selectEduCertificateByCertificateId(certificateId));
+        ajax.put("authorities", eduAuthorityService.selectEduAuthorityAll());
+        return ajax;
     }
 
     /**

@@ -135,8 +135,15 @@
         <el-form-item label="学生ID" prop="studentId">
           <el-input v-model="form.studentId" placeholder="请输入学生ID" />
         </el-form-item>
-        <el-form-item label="认证机构ID" prop="authorityId">
-          <el-input v-model="form.authorityId" placeholder="请输入认证机构ID" />
+        <el-form-item label="认证机构" prop="authorityId">
+          <el-select v-model="form.authorityId" placeholder="请选择认证机构">
+            <el-option
+              v-for="item in authorityOptions"
+              :key="item.authorityId"
+              :label="item.authorityName"
+              :value="item.authorityId"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="证书名称" prop="certificateName">
           <el-input v-model="form.certificateName" placeholder="请输入证书名称" />
@@ -197,6 +204,8 @@ export default {
         certificateName: null,
         issueTime: null,
       },
+      // 认证机构选项
+      authorityOptions: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -266,6 +275,7 @@ export default {
       const certificateId = row.certificateId || this.ids
       getCertificate(certificateId).then(response => {
         this.form = response.data;
+        this.authorityOptions = response.authorities;
         this.open = true;
         this.title = "修改学生证书";
       });

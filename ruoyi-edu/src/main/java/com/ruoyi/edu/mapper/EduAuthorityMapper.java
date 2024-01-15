@@ -58,4 +58,6 @@ public interface EduAuthorityMapper
      * @return 结果
      */
     public int deleteEduAuthorityByAuthorityIds(Long[] authorityIds);
+
+    List<EduAuthority> selectEduAuthorityAll();
 }
