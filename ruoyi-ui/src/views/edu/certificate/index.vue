@@ -16,14 +16,15 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="认证机构ID" prop="authorityId">
-        <el-input
-          v-model="queryParams.authorityId"
-          placeholder="请输入认证机构ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="认证机构" prop="authorityId">
+        <el-select clearable v-model="queryParams.authorityId" placeholder="请选择认证机构">
+          <el-option
+            v-for="item in authorityOptions"
+            :key="item.authorityId"
+            :label="item.authorityName"
+            :value="item.authorityId"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="证书名称" prop="certificateName">
         <el-input
@@ -189,6 +190,7 @@
 <script>
 import { listCertificate, getCertificate, delCertificate, addCertificate, updateCertificate, exportCertificate } from "@/api/edu/certificate";
 import { listStudent } from "@/api/edu/student";
+import { listAuthority } from "@/api/edu/authority";
 
 export default {
   name: "Certificate",
@@ -236,8 +238,10 @@ export default {
   },
   created() {
     this.getList();
+    this.getAuthorityOptions();
   },
   methods: {
+    /** 按姓名查询学生 */
     searchStudent(query) {
       if (query !== '') {
         this.loading = true;
@@ -252,6 +256,12 @@ export default {
       } else {
         this.studentOptions = [];
       }
+    },
+    /** 获取认证机构选项 */
+    getAuthorityOptions() {
+      listAuthority().then(response => {
+        this.authorityOptions = response.rows;
+      });
     },
     /** 查询学生证书列表 */
     getList() {
@@ -311,7 +321,6 @@ export default {
       const certificateId = row.certificateId || this.ids
       getCertificate(certificateId).then(response => {
         this.form = response.data;
-        this.authorityOptions = response.authorities;
         this.open = true;
         this.title = "修改学生证书";
       });
