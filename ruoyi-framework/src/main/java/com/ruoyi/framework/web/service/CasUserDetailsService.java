@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.enums.UserStatus;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.service.ISysRoleService;
 import com.ruoyi.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +23,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CasUserDetailsService implements AuthenticationUserDetailsService<CasAssertionAuthenticationToken> {
 
-	private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(CasUserDetailsService.class);
 
 	@Autowired
 	private ISysUserService userService;
+
+	@Autowired
+	private ISysRoleService roleService;
 
 	@Autowired
 	private SysPermissionService permissionService;
@@ -35,8 +39,15 @@ public class CasUserDetailsService implements AuthenticationUserDetailsService<C
 		String username = token.getName();
 		SysUser user = userService.selectUserByUserName(username);
 		if (StringUtils.isNull(user)) {
-			log.info("登录用户：{} 不存在.", username);
-			throw new ServiceException("登录用户：" + username + " 不存在");
+			log.info("用户：{} 初次登录.", username);
+			user = new SysUser();
+			user.setUserName(username);
+			user.setNickName(username);
+			user.setStatus("0");
+			userService.insertUser(user);
+			if (username.startsWith("SD")) {
+				roleService.insertAuthUsers(100L, new Long[]{user.getUserId()});
+			}
 		} else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
 			log.info("登录用户：{} 已被删除.", username);
 			throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
