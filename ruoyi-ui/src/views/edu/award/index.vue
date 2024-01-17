@@ -1,14 +1,20 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="学生ID" prop="studentId">
-        <el-input
-          v-model="queryParams.studentId"
-          placeholder="请输入学生ID"
+      <el-form-item label="学生" prop="studentId">
+        <el-select v-model="queryParams.studentId" placeholder="请输入姓名"
+          filterable
           clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+          remote
+          :remote-method="searchStudent"
+          :loading="loading">
+          <el-option
+            v-for="item in studentOptions"
+            :key="item.studentId"
+            :label="item.studentName"
+            :value="item.studentId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="竞赛ID" prop="contestId">
         <el-input
@@ -145,7 +151,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -201,6 +207,7 @@
 
 <script>
 import { listAward, getAward, delAward, addAward, updateAward, exportAward } from "@/api/edu/award";
+import { listStudent } from "@/api/edu/student";
 
 export default {
   name: "Award",
@@ -239,6 +246,8 @@ export default {
         teacherName: null,
         teamName: null,
       },
+      // 学生选项
+      studentOptions: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -253,6 +262,22 @@ export default {
     });
   },
   methods: {
+    /** 按姓名查询学生 */
+    searchStudent(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          listStudent({ studentName: query }).then(response => {
+            this.studentOptions = response.rows.filter(item => {
+              return item.studentName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            });
+            this.loading = false;
+          });
+        }, 200);
+      } else {
+        this.studentOptions = [];
+      }
+    },
     /** 查询奖项列表 */
     getList() {
       this.loading = true;
