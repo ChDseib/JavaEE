@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.EduAwardMapper">
+    
+    <resultMap type="EduAward" id="EduAwardResult">
+        <result property="awardId"    column="award_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="contestId"    column="contest_id"    />
+        <result property="grade"    column="grade"    />
+        <result property="issueTime"    column="issue_time"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEduAwardVo">
+        select award_id, student_id, contest_id, grade, issue_time, teacher_name, file_url, team_name, create_by, create_time, update_by, update_time from edu_award
+    </sql>
+
+    <select id="selectEduAwardList" parameterType="EduAward" resultMap="EduAwardResult">
+        <include refid="selectEduAwardVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="contestId != null "> and contest_id = #{contestId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
+            <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectEduAwardByAwardId" parameterType="Long" resultMap="EduAwardResult">
+        <include refid="selectEduAwardVo"/>
+        where award_id = #{awardId}
+    </select>
+        
+    <insert id="insertEduAward" parameterType="EduAward" useGeneratedKeys="true" keyProperty="awardId">
+        insert into edu_award
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="contestId != null">contest_id,</if>
+            <if test="grade != null">grade,</if>
+            <if test="issueTime != null">issue_time,</if>
+            <if test="teacherName != null">teacher_name,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="teamName != null">team_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="contestId != null">#{contestId},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="issueTime != null">#{issueTime},</if>
+            <if test="teacherName != null">#{teacherName},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduAward" parameterType="EduAward">
+        update edu_award
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="contestId != null">contest_id = #{contestId},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="issueTime != null">issue_time = #{issueTime},</if>
+            <if test="teacherName != null">teacher_name = #{teacherName},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="teamName != null">team_name = #{teamName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where award_id = #{awardId}
+    </update>
+
+    <delete id="deleteEduAwardByAwardId" parameterType="Long">
+        delete from edu_award where award_id = #{awardId}
+    </delete>
+
+    <delete id="deleteEduAwardByAwardIds" parameterType="String">
+        delete from edu_award where award_id in 
+        <foreach item="awardId" collection="array" open="(" separator="," close=")">
+            #{awardId}
+        </foreach>
+    </delete>
+</mapper>
