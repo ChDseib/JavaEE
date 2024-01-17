@@ -118,8 +118,8 @@
     <el-table v-loading="loading" :data="awardList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="奖项ID" align="center" prop="awardId" />
-      <el-table-column label="学生ID" align="center" prop="studentId" />
-      <el-table-column label="竞赛ID" align="center" prop="contestId" />
+      <el-table-column label="学生姓名" align="center" prop="student.studentName" />
+      <el-table-column label="竞赛" align="center" prop="contest.contestName" />
       <el-table-column label="等级" align="center" prop="grade">
         <template slot-scope="scope">
           <dict-tag :options="gradeOptions" :value="scope.row.grade"/>

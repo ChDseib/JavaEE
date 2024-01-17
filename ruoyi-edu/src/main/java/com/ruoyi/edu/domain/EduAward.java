@@ -24,9 +24,13 @@ public class EduAward extends BaseEntity
     @Excel(name = "学生ID")
     private Long studentId;
 
+    private EduStudent student;
+
     /** 竞赛ID */
     @Excel(name = "竞赛ID")
     private Long contestId;
+
+    private EduContest contest;
 
     /** 等级 */
     @Excel(name = "等级")
@@ -120,6 +124,22 @@ public class EduAward extends BaseEntity
     public String getTeamName() 
     {
         return teamName;
+    }
+
+    public EduStudent getStudent() {
+        return student;
+    }
+
+    public void setStudent(EduStudent student) {
+        this.student = student;
+    }
+
+    public EduContest getContest() {
+        return contest;
+    }
+
+    public void setContest(EduContest contest) {
+        this.contest = contest;
     }
 
     @Override

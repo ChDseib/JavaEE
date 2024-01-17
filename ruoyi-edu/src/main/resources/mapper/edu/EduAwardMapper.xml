@@ -17,27 +17,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <association property="student"    javaType="EduStudent"    resultMap="studentResult"   />
+        <association property="contest"    javaType="EduContest"    resultMap="contestResult"   />
+    </resultMap>
+
+    <resultMap id="studentResult" type="EduStudent">
+        <id     property="studentId"       column="student_id"     />
+        <result property="studentName"     column="student_name"   />
+    </resultMap>
+
+    <resultMap id="contestResult" type="EduContest">
+        <id     property="contestId"       column="contest_id"     />
+        <result property="contestName"     column="contest_name"   />
     </resultMap>
 
     <sql id="selectEduAwardVo">
-        select award_id, student_id, contest_id, grade, issue_time, teacher_name, file_url, team_name, create_by, create_time, update_by, update_time from edu_award
+        select a.award_id, a.student_id, a.contest_id, a.grade, a.issue_time, a.teacher_name, a.file_url, a.team_name, a.create_by, a.create_time, a.update_by, a.update_time,
+            s.student_name, c.contest_name
+        from edu_award a
+            left join edu_student s on a.student_id = s.student_id
+            left join edu_contest c on a.contest_id = c.contest_id
     </sql>
 
     <select id="selectEduAwardList" parameterType="EduAward" resultMap="EduAwardResult">
         <include refid="selectEduAwardVo"/>
         <where>  
-            <if test="studentId != null "> and student_id = #{studentId}</if>
-            <if test="contestId != null "> and contest_id = #{contestId}</if>
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
-            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
-            <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
-            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
+            <if test="studentId != null "> and a.student_id = #{studentId}</if>
+            <if test="contestId != null "> and a.contest_id = #{contestId}</if>
+            <if test="grade != null  and grade != ''"> and a.grade = #{grade}</if>
+            <if test="issueTime != null "> and a.issue_time = #{issueTime}</if>
+            <if test="teacherName != null  and teacherName != ''"> and a.teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="teamName != null  and teamName != ''"> and a.team_name like concat('%', #{teamName}, '%')</if>
         </where>
     </select>
     
     <select id="selectEduAwardByAwardId" parameterType="Long" resultMap="EduAwardResult">
         <include refid="selectEduAwardVo"/>
-        where award_id = #{awardId}
+        where a.award_id = #{awardId}
     </select>
         
     <insert id="insertEduAward" parameterType="EduAward" useGeneratedKeys="true" keyProperty="awardId">
