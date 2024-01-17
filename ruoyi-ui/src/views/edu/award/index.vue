@@ -16,14 +16,15 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="竞赛ID" prop="contestId">
-        <el-input
-          v-model="queryParams.contestId"
-          placeholder="请输入竞赛ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="竞赛" prop="contestId">
+        <el-select clearable v-model="queryParams.contestId" placeholder="请选择竞赛">
+          <el-option
+            v-for="item in contestOptions"
+            :key="item.contestId"
+            :label="item.contestName"
+            :value="item.contestId"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="等级" prop="grade">
         <el-select v-model="queryParams.grade" placeholder="请选择等级" clearable size="small">
@@ -208,6 +209,7 @@
 <script>
 import { listAward, getAward, delAward, addAward, updateAward, exportAward } from "@/api/edu/award";
 import { listStudent } from "@/api/edu/student";
+import { listContest } from "@/api/edu/contest";
 
 export default {
   name: "Award",
@@ -248,6 +250,8 @@ export default {
       },
       // 学生选项
       studentOptions: [],
+      // 竞赛选项
+      contestOptions: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -257,6 +261,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getContestOptions();
     this.getDicts("edu_award_grade").then(response => {
       this.gradeOptions = response.data;
     });
@@ -277,6 +282,12 @@ export default {
       } else {
         this.studentOptions = [];
       }
+    },
+    /** 获取竞赛选项 */
+    getContestOptions() {
+      listContest().then(response => {
+        this.contestOptions = response.rows;
+      });
     },
     /** 查询奖项列表 */
     getList() {
