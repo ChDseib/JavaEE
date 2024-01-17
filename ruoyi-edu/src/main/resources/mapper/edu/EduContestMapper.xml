@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.EduContestMapper">
+    
+    <resultMap type="EduContest" id="EduContestResult">
+        <result property="contestId"    column="contest_id"    />
+        <result property="contestName"    column="contest_name"    />
+        <result property="level"    column="level"    />
+        <result property="organizer"    column="organizer"    />
+    </resultMap>
+
+    <sql id="selectEduContestVo">
+        select contest_id, contest_name, level, organizer from edu_contest
+    </sql>
+
+    <select id="selectEduContestList" parameterType="EduContest" resultMap="EduContestResult">
+        <include refid="selectEduContestVo"/>
+        <where>  
+            <if test="contestName != null  and contestName != ''"> and contest_name like concat('%', #{contestName}, '%')</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="organizer != null  and organizer != ''"> and organizer = #{organizer}</if>
+        </where>
+    </select>
+    
+    <select id="selectEduContestByContestId" parameterType="Long" resultMap="EduContestResult">
+        <include refid="selectEduContestVo"/>
+        where contest_id = #{contestId}
+    </select>
+        
+    <insert id="insertEduContest" parameterType="EduContest" useGeneratedKeys="true" keyProperty="contestId">
+        insert into edu_contest
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contestName != null">contest_name,</if>
+            <if test="level != null">level,</if>
+            <if test="organizer != null">organizer,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contestName != null">#{contestName},</if>
+            <if test="level != null">#{level},</if>
+            <if test="organizer != null">#{organizer},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEduContest" parameterType="EduContest">
+        update edu_contest
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contestName != null">contest_name = #{contestName},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="organizer != null">organizer = #{organizer},</if>
+        </trim>
+        where contest_id = #{contestId}
+    </update>
+
+    <delete id="deleteEduContestByContestId" parameterType="Long">
+        delete from edu_contest where contest_id = #{contestId}
+    </delete>
+
+    <delete id="deleteEduContestByContestIds" parameterType="String">
+        delete from edu_contest where contest_id in 
+        <foreach item="contestId" collection="array" open="(" separator="," close=")">
+            #{contestId}
+        </foreach>
+    </delete>
+</mapper>

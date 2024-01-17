@@ -81,3 +81,28 @@ insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame
 values('学生证书删除', @parentId, '4',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:remove',       '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
 values('学生证书导出', @parentId, '5',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:export',       '#', 'admin', sysdate(), '', null, '');
+
+CREATE TABLE `edu_contest` (
+  `contest_id` bigint NOT NULL AUTO_INCREMENT COMMENT '竞赛ID',
+  `contest_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '竞赛名称',
+  `level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '级别',
+  `organizer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组织者',
+  PRIMARY KEY (`contest_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='竞赛表';
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2020, '学科竞赛', 2007, 1, 'contest', 'edu/contest/index', NULL, 1, 0, 'C', '0', '0', 'edu:contest:list', 'row', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:22:46', '竞赛管理菜单'),
+(2021, '竞赛查询', 2020, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:query', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:01', ''),
+(2022, '竞赛新增', 2020, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:add', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:07', ''),
+(2023, '竞赛修改', 2020, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:edit', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:12', ''),
+(2024, '竞赛删除', 2020, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:remove', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:17', ''),
+(2025, '竞赛导出', 2020, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:export', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:22', '');
+
+INSERT INTO `sys_dict_type` (`dict_id`, `dict_name`, `dict_type`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(100, '竞赛级别', 'edu_contest_level', '0', 'admin', '2024-01-17 11:10:38', '', NULL, '竞赛级别列表');
+INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(100, 1, '国家级', '1', 'edu_contest_level', NULL, 'default', 'N', '0', 'admin', '2024-01-17 11:12:53', '', NULL, NULL),
+(101, 2, '省市级', '2', 'edu_contest_level', NULL, 'default', 'N', '0', 'admin', '2024-01-17 11:13:07', '', NULL, NULL),
+(102, 3, '校级', '3', 'edu_contest_level', NULL, 'default', 'N', '0', 'admin', '2024-01-17 11:13:18', '', NULL, NULL),
+(103, 9, '其他', '9', 'edu_contest_level', NULL, 'default', 'N', '0', 'admin', '2024-01-17 11:13:31', '', NULL, NULL);
+
