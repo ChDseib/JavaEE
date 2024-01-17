@@ -2,9 +2,8 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="学生" prop="studentId">
-        <el-select v-model="queryParams.studentId" placeholder="请输入姓名"
+        <el-select v-model="queryParams.studentId" placeholder="请输入姓名" clearable size="small"
           filterable
-          clearable
           remote
           :remote-method="searchStudent"
           :loading="loading">
@@ -17,7 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="认证机构" prop="authorityId">
-        <el-select clearable v-model="queryParams.authorityId" placeholder="请选择认证机构">
+        <el-select v-model="queryParams.authorityId" placeholder="请选择认证机构" clearable size="small">
           <el-option
             v-for="item in authorityOptions"
             :key="item.authorityId"

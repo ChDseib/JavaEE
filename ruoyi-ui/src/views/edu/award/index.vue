@@ -2,9 +2,8 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="学生" prop="studentId">
-        <el-select v-model="queryParams.studentId" placeholder="请输入姓名"
+        <el-select v-model="queryParams.studentId" placeholder="请输入姓名" clearable size="small"
           filterable
-          clearable
           remote
           :remote-method="searchStudent"
           :loading="loading">
@@ -17,7 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="竞赛" prop="contestId">
-        <el-select clearable v-model="queryParams.contestId" placeholder="请选择竞赛">
+        <el-select v-model="queryParams.contestId" placeholder="请选择竞赛" clearable size="small">
           <el-option
             v-for="item in contestOptions"
             :key="item.contestId"
