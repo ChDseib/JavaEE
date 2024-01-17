@@ -164,11 +164,30 @@
     <!-- 添加或修改奖项对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="学生ID" prop="studentId">
-          <el-input v-model="form.studentId" placeholder="请输入学生ID" />
+        <el-form-item label="学生" prop="studentId">
+          <el-select v-model="form.studentId" placeholder="请输入姓名"
+            filterable
+            clearable
+            remote
+            :remote-method="searchStudent"
+            :loading="loading">
+            <el-option
+              v-for="item in studentOptions"
+              :key="item.studentId"
+              :label="item.studentName"
+              :value="item.studentId">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="竞赛ID" prop="contestId">
-          <el-input v-model="form.contestId" placeholder="请输入竞赛ID" />
+        <el-form-item label="竞赛" prop="contestId">
+          <el-select clearable v-model="form.contestId" placeholder="请选择竞赛">
+            <el-option
+              v-for="item in contestOptions"
+              :key="item.contestId"
+              :label="item.contestName"
+              :value="item.contestId"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="等级" prop="grade">
           <el-select v-model="form.grade" placeholder="请选择等级">
