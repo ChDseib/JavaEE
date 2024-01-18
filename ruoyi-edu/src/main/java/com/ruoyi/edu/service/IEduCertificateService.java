@@ -1,6 +1,8 @@
 package com.ruoyi.edu.service;
 
 import java.util.List;
+
+import com.ruoyi.edu.domain.EduAttachment;
 import com.ruoyi.edu.domain.EduCertificate;
 
 /**
@@ -58,4 +60,6 @@ public interface IEduCertificateService
      * @return 结果
      */
     public int deleteEduCertificateByCertificateId(Long certificateId);
+
+    public List<EduAttachment> getEduAttachments(Long[] certificateIds);
 }

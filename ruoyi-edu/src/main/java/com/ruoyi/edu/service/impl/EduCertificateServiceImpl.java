@@ -1,7 +1,10 @@
 package com.ruoyi.edu.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.edu.domain.EduAttachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.edu.mapper.EduCertificateMapper;
@@ -93,4 +96,27 @@ public class EduCertificateServiceImpl implements IEduCertificateService
     {
         return eduCertificateMapper.deleteEduCertificateByCertificateId(certificateId);
     }
+
+    @Override
+    public List<EduAttachment> getEduAttachments(Long[] certificateIds) {
+        List<EduAttachment> attachments = new ArrayList<>();
+        for (Long certificateId: certificateIds) {
+            EduCertificate certificate = selectEduCertificateByCertificateId(certificateId);
+            if (StringUtils.isNotEmpty(certificate.getFileUrl())) {
+                EduAttachment attachment = new EduAttachment();
+                attachment.setFileUrl(certificate.getFileUrl());
+                StringBuilder name = new StringBuilder();
+                name.append(certificate.getStudent().getStudentName());
+                name.append("_");
+                name.append(certificate.getStudent().getStudentCode());
+                name.append("_");
+                name.append(certificate.getCertificateName());
+                String ext = StringUtils.substringAfterLast(certificate.getFileUrl(), ".");
+                attachment.setFileName(name.append(".").append(ext).toString());
+                attachments.add(attachment);
+            }
+        }
+        return attachments;
+    }
+
 }

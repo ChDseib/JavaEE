@@ -2,6 +2,11 @@ package com.ruoyi.web.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.edu.domain.EduAttachment;
+import com.ruoyi.edu.service.IEduAwardService;
+import com.ruoyi.edu.service.IEduCertificateService;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,14 @@ import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.framework.config.ServerConfig;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 /**
  * 通用请求处理
  * 
@@ -30,6 +43,12 @@ public class CommonController
 
     @Autowired
     private ServerConfig serverConfig;
+
+    @Autowired
+    private IEduCertificateService eduCertificateService;
+
+    @Autowired
+    private IEduAwardService eduAwardService;
 
     /**
      * 通用下载请求
@@ -114,5 +133,56 @@ public class CommonController
         {
             log.error("下载文件失败", e);
         }
+    }
+
+    @GetMapping("/common/batchDownload")
+    public void batchDownload(HttpServletResponse response, String bizType, Long[] bizIds) throws Exception
+    {
+        List<EduAttachment> attachments = null;
+        switch (bizType) {
+            case "eduCertificate":
+                attachments = eduCertificateService.getEduAttachments(bizIds);
+                break;
+            case "eduAward":
+                attachments = eduAwardService.getEduAttachments(bizIds);
+                break;
+            default:
+                throw new Exception(StringUtils.format("业务类型({})非法，不允许下载。 ", bizType));
+        }
+        byte[] data = downloadFile(attachments);
+        download(response, data);
+    }
+    public byte[] downloadFile(List<EduAttachment> attachments) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(outputStream);
+        for (EduAttachment attachment : attachments) {
+            compressToZip(attachment, zip);
+        }
+        IOUtils.closeQuietly(zip);
+        return outputStream.toByteArray();
+    }
+    private void compressToZip(EduAttachment attachment, ZipOutputStream zip) {
+        try {
+            FileInputStream fis = new FileInputStream(new File(attachment.getFileUrl().replace("/profile", RuoYiConfig.getProfile())));
+            // 添加到zip
+            zip.putNextEntry(new ZipEntry(attachment.getFileName()));
+            IOUtils.copy(fis, zip);
+            IOUtils.closeQuietly(fis);
+            zip.flush();
+            zip.closeEntry();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void download(HttpServletResponse response, byte[] data) throws IOException
+    {
+        response.reset();
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
+        response.setHeader("Content-Disposition", "attachment; filename=\"attachment.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+        IOUtils.write(data, response.getOutputStream());
     }
 }

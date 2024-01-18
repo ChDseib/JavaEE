@@ -1,6 +1,8 @@
 package com.ruoyi.edu.service;
 
 import java.util.List;
+
+import com.ruoyi.edu.domain.EduAttachment;
 import com.ruoyi.edu.domain.EduAward;
 
 /**
@@ -58,4 +60,6 @@ public interface IEduAwardService
      * @return 结果
      */
     public int deleteEduAwardByAwardId(Long awardId);
+
+    List<EduAttachment> getEduAttachments(Long[] awardIds);
 }

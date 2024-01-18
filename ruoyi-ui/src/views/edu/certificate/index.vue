@@ -92,6 +92,17 @@
           v-hasPermi="['edu:certificate:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="info"
+          plain
+          icon="el-icon-paperclip"
+          size="mini"
+          :loading="exportLoading"
+          @click="handleDownload"
+          v-hasPermi="['edu:certificate:export']"
+        >下载附件</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -106,7 +117,6 @@
           <span>{{ parseTime(scope.row.issueTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="附件" align="center" prop="fileUrl" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -123,6 +133,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['edu:certificate:remove']"
           >删除</el-button>
+          <el-button
+            type="text"
+            size="small"
+            icon="el-icon-download"
+            @click="handleDownload(scope.row)"
+            v-hasPermi="['edu:certificate:export']"
+          >下载附件</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -190,6 +207,7 @@
 import { listCertificate, getCertificate, delCertificate, addCertificate, updateCertificate, exportCertificate } from "@/api/edu/certificate";
 import { listStudent } from "@/api/edu/student";
 import { listAuthority } from "@/api/edu/authority";
+import { downLoadZip } from "@/utils/zipdownload";
 
 export default {
   name: "Certificate",
@@ -357,6 +375,15 @@ export default {
           this.getList();
           this.msgSuccess("删除成功");
         }).catch(() => {});
+    },
+    /** 下载附件操作 */
+    handleDownload(row) {
+      const certificateIds = row.certificateId || this.ids;
+      if (certificateIds == "") {
+        this.msgError("请选择要下载的数据");
+        return;
+      }
+      downLoadZip("/common/batchDownload?bizType=eduCertificate&bizIds=" + certificateIds, "ruoyi");
     },
     /** 导出按钮操作 */
     handleExport() {

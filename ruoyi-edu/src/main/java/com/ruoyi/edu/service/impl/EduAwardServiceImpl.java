@@ -2,6 +2,7 @@ package com.ruoyi.edu.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.edu.domain.EduAttachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.edu.mapper.EduAwardMapper;
@@ -92,5 +93,10 @@ public class EduAwardServiceImpl implements IEduAwardService
     public int deleteEduAwardByAwardId(Long awardId)
     {
         return eduAwardMapper.deleteEduAwardByAwardId(awardId);
+    }
+
+    @Override
+    public List<EduAttachment> getEduAttachments(Long[] awardIds) {
+        return null;
     }
 }
