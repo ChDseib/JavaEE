@@ -1,7 +1,10 @@
 package com.ruoyi.edu.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.DictUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.edu.domain.EduAttachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +100,26 @@ public class EduAwardServiceImpl implements IEduAwardService
 
     @Override
     public List<EduAttachment> getEduAttachments(Long[] awardIds) {
-        return null;
+        List<EduAttachment> attachments = new ArrayList<>();
+        for (Long awardId: awardIds) {
+            EduAward award = eduAwardMapper.selectEduAwardByAwardId(awardId);
+            if (StringUtils.isNotEmpty(award.getFileUrl())) {
+                EduAttachment attachment = new EduAttachment();
+                attachment.setFileUrl(award.getFileUrl());
+                attachment.setFileUrl(award.getFileUrl());
+                StringBuilder name = new StringBuilder();
+                name.append(award.getStudent().getStudentName());
+                name.append("_");
+                name.append(award.getStudent().getStudentCode());
+                name.append("_");
+                name.append(award.getContest().getContestName());
+                name.append("_");
+                name.append(DictUtils.getDictLabel("edu_award_grade", award.getGrade()));
+                String ext = StringUtils.substringAfterLast(award.getFileUrl(), ".");
+                attachment.setFileName(name.append(".").append(ext).toString());
+                attachments.add(attachment);
+            }
+        }
+        return attachments;
     }
 }

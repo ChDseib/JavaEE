@@ -111,6 +111,17 @@
           v-hasPermi="['edu:award:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="info"
+          plain
+          icon="el-icon-paperclip"
+          size="mini"
+          :loading="exportLoading"
+          @click="handleDownload"
+          v-hasPermi="['edu:award:export']"
+        >下载附件</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -130,7 +141,6 @@
         </template>
       </el-table-column>
       <el-table-column label="指导老师" align="center" prop="teacherName" />
-      <el-table-column label="附件" align="center" prop="fileUrl" />
       <el-table-column label="团队名称" align="center" prop="teamName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -148,6 +158,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['edu:award:remove']"
           >删除</el-button>
+          <el-button
+            type="text"
+            size="small"
+            icon="el-icon-download"
+            @click="handleDownload(scope.row)"
+            v-hasPermi="['edu:award:export']"
+          >下载附件</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -228,6 +245,7 @@
 import { listAward, getAward, delAward, addAward, updateAward, exportAward } from "@/api/edu/award";
 import { listStudent } from "@/api/edu/student";
 import { listContest } from "@/api/edu/contest";
+import { downLoadZip } from "@/utils/zipdownload";
 
 export default {
   name: "Award",
@@ -404,6 +422,15 @@ export default {
           this.getList();
           this.msgSuccess("删除成功");
         }).catch(() => {});
+    },
+    /** 下载附件操作 */
+    handleDownload(row) {
+      const awardIds = row.awardId || this.ids;
+      if (awardIds == "") {
+        this.msgError("请选择要下载的数据");
+        return;
+      }
+      downLoadZip("/common/batchDownload?bizType=eduAward&bizIds=" + awardIds, "ruoyi");
     },
     /** 导出按钮操作 */
     handleExport() {
