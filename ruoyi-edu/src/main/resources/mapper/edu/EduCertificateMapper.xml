@@ -22,6 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap id="studentResult" type="EduStudent">
         <id     property="studentId"       column="student_id"     />
         <result property="studentName"     column="student_name"   />
+        <result property="studentCode"     column="student_code"   />
+        <result property="className"     column="class_name"   />
     </resultMap>
 
     <resultMap id="authorityResult" type="EduAuthority">
@@ -30,7 +32,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEduCertificateVo">
-        select c.certificate_id, c.student_id, s.student_name, c.authority_id, a.authority_name, c.certificate_name, c.issue_time, c.file_url, c.create_by, c.create_time, c.update_by, c.update_time
+        select c.certificate_id, c.student_id, c.authority_id, c.certificate_name, c.issue_time, c.file_url, c.create_by, c.create_time, c.update_by, c.update_time,
+            s.student_name, s.student_code, s.class_name,
+            a.authority_name
         from edu_certificate c
             left join edu_student s on c.student_id = s.student_id
             left join edu_authority a on c.authority_id = a.authority_id

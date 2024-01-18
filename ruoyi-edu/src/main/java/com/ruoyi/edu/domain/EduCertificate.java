@@ -2,6 +2,7 @@ package com.ruoyi.edu.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -21,15 +22,21 @@ public class EduCertificate extends BaseEntity
     private Long certificateId;
 
     /** 学生ID */
-    @Excel(name = "学生ID")
     private Long studentId;
 
+    @Excels({
+            @Excel(name = "班级", targetAttr = "className", type = Excel.Type.EXPORT),
+            @Excel(name = "学号", targetAttr = "studentCode", type = Excel.Type.EXPORT),
+            @Excel(name = "姓名", targetAttr = "studentName", type = Excel.Type.EXPORT)
+    })
     private EduStudent student;
 
     /** 认证机构ID */
-    @Excel(name = "认证机构ID")
     private Long authorityId;
 
+    @Excels({
+            @Excel(name = "机构", targetAttr = "authorityName", type = Excel.Type.EXPORT)
+    })
     private EduAuthority authority;
 
     /** 证书名称 */
@@ -42,7 +49,6 @@ public class EduCertificate extends BaseEntity
     private Date issueTime;
 
     /** 附件 */
-    @Excel(name = "附件")
     private String fileUrl;
 
     public void setCertificateId(Long certificateId) 
