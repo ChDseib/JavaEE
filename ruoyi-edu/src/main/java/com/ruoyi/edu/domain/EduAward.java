@@ -2,6 +2,7 @@ package com.ruoyi.edu.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -21,19 +22,25 @@ public class EduAward extends BaseEntity
     private Long awardId;
 
     /** 学生ID */
-    @Excel(name = "学生ID")
     private Long studentId;
 
+    @Excels({
+            @Excel(name = "班级", targetAttr = "className", type = Excel.Type.EXPORT),
+            @Excel(name = "学号", targetAttr = "studentCode", type = Excel.Type.EXPORT),
+            @Excel(name = "姓名", targetAttr = "studentName", type = Excel.Type.EXPORT)
+    })
     private EduStudent student;
 
     /** 竞赛ID */
-    @Excel(name = "竞赛ID")
     private Long contestId;
 
+    @Excels({
+            @Excel(name = "竞赛", targetAttr = "contestName", type = Excel.Type.EXPORT)
+    })
     private EduContest contest;
 
     /** 等级 */
-    @Excel(name = "等级")
+    @Excel(name = "等级", dictType = "edu_award_grade")
     private String grade;
 
     /** 获奖时间 */
@@ -46,7 +53,6 @@ public class EduAward extends BaseEntity
     private String teacherName;
 
     /** 附件 */
-    @Excel(name = "附件")
     private String fileUrl;
 
     /** 团队名称 */

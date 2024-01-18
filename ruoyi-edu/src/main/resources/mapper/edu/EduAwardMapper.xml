@@ -24,6 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap id="studentResult" type="EduStudent">
         <id     property="studentId"       column="student_id"     />
         <result property="studentName"     column="student_name"   />
+        <result property="studentCode"     column="student_code"   />
+        <result property="className"     column="class_name"   />
     </resultMap>
 
     <resultMap id="contestResult" type="EduContest">
@@ -33,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectEduAwardVo">
         select a.award_id, a.student_id, a.contest_id, a.grade, a.issue_time, a.teacher_name, a.file_url, a.team_name, a.create_by, a.create_time, a.update_by, a.update_time,
-            s.student_name, c.contest_name
+            s.student_name, s.student_code, s.class_name, c.contest_name
         from edu_award a
             left join edu_student s on a.student_id = s.student_id
             left join edu_contest c on a.contest_id = c.contest_id
