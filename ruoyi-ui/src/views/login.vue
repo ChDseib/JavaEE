@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">获奖管理系统</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -51,7 +51,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2021 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2024 上海杉达学院 All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -168,7 +168,7 @@ export default {
 
 .login-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: #D4F2E7;
   width: 400px;
   padding: 25px 25px 5px 25px;
   .el-input {
