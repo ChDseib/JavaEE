@@ -2,6 +2,8 @@ package com.ruoyi.edu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -43,6 +45,7 @@ public class EduCertificateServiceImpl implements IEduCertificateService
      * @return 学生证书
      */
     @Override
+    @DataScope(userAlias = "u")
     public List<EduCertificate> selectEduCertificateList(EduCertificate eduCertificate)
     {
         return eduCertificateMapper.selectEduCertificateList(eduCertificate);

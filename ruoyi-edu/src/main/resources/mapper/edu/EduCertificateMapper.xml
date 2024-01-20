@@ -38,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from edu_certificate c
             left join edu_student s on c.student_id = s.student_id
             left join edu_authority a on c.authority_id = a.authority_id
+            left join sys_user u on c.create_by = u.user_name
     </sql>
 
     <select id="selectEduCertificateList" parameterType="EduCertificate" resultMap="EduCertificateResult">
@@ -47,6 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="authorityId != null "> and c.authority_id = #{authorityId}</if>
             <if test="certificateName != null  and certificateName != ''"> and c.certificate_name like concat('%', #{certificateName}, '%')</if>
             <if test="issueTime != null "> and c.issue_time = #{issueTime}</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
     
