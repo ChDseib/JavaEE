@@ -2,6 +2,8 @@ package com.ruoyi.edu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.DictUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -44,6 +46,7 @@ public class EduAwardServiceImpl implements IEduAwardService
      * @return 奖项
      */
     @Override
+    @DataScope(userAlias = "u")
     public List<EduAward> selectEduAwardList(EduAward eduAward)
     {
         return eduAwardMapper.selectEduAwardList(eduAward);

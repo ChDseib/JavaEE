@@ -39,6 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from edu_award a
             left join edu_student s on a.student_id = s.student_id
             left join edu_contest c on a.contest_id = c.contest_id
+            left join sys_user u on a.create_by = u.user_name
     </sql>
 
     <select id="selectEduAwardList" parameterType="EduAward" resultMap="EduAwardResult">
@@ -50,6 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="issueTime != null "> and a.issue_time = #{issueTime}</if>
             <if test="teacherName != null  and teacherName != ''"> and a.teacher_name like concat('%', #{teacherName}, '%')</if>
             <if test="teamName != null  and teamName != ''"> and a.team_name like concat('%', #{teamName}, '%')</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
     
