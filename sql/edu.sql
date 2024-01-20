@@ -138,3 +138,23 @@ INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value
 (106, 2, '二等奖', '2', 'edu_award_grade', NULL, 'default', 'N', '0', 'admin', '2024-01-17 13:49:32', '', NULL, NULL),
 (107, 3, '三等奖', '3', 'edu_award_grade', NULL, 'default', 'N', '0', 'admin', '2024-01-17 13:49:41', '', NULL, NULL),
 (108, 9, '优胜奖', '9', 'edu_award_grade', NULL, 'default', 'N', '0', 'admin', '2024-01-17 13:49:54', '', NULL, NULL);
+
+CREATE TABLE `edu_teacher` (
+  `teacher_id` bigint NOT NULL AUTO_INCREMENT COMMENT '教师ID',
+  `teacher_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '姓名',
+  `teacher_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '工号',
+  `dept_id` bigint DEFAULT NULL COMMENT '部门ID',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`teacher_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师表';
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2032, '教师管理', 2007, 1, 'teacher', 'edu/teacher/index', NULL, 1, 0, 'C', '0', '0', 'edu:teacher:list', 'user', 'admin', '2024-01-20 21:44:21', 'admin', '2024-01-20 21:46:55', '教师菜单'),
+(2033, '教师查询', 2032, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:query', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
+(2034, '教师新增', 2032, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:add', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
+(2035, '教师修改', 2032, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:edit', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
+(2036, '教师删除', 2032, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:remove', '#', 'admin', '2024-01-20 21:44:22', '', NULL, ''),
+(2037, '教师导出', 2032, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:export', '#', 'admin', '2024-01-20 21:44:22', '', NULL, '');
