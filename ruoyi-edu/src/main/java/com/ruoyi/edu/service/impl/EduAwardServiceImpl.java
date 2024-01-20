@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.DictUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.edu.domain.EduAttachment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class EduAwardServiceImpl implements IEduAwardService
     @Override
     public int insertEduAward(EduAward eduAward)
     {
+        eduAward.setCreateBy(SecurityUtils.getUsername());
         eduAward.setCreateTime(DateUtils.getNowDate());
         return eduAwardMapper.insertEduAward(eduAward);
     }
@@ -70,6 +72,7 @@ public class EduAwardServiceImpl implements IEduAwardService
     @Override
     public int updateEduAward(EduAward eduAward)
     {
+        eduAward.setUpdateBy(SecurityUtils.getUsername());
         eduAward.setUpdateTime(DateUtils.getNowDate());
         return eduAwardMapper.updateEduAward(eduAward);
     }

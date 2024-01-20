@@ -3,6 +3,7 @@ package com.ruoyi.edu.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.edu.domain.EduAttachment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class EduCertificateServiceImpl implements IEduCertificateService
     @Override
     public int insertEduCertificate(EduCertificate eduCertificate)
     {
+        eduCertificate.setCreateBy(SecurityUtils.getUsername());
         eduCertificate.setCreateTime(DateUtils.getNowDate());
         return eduCertificateMapper.insertEduCertificate(eduCertificate);
     }
@@ -69,6 +71,7 @@ public class EduCertificateServiceImpl implements IEduCertificateService
     @Override
     public int updateEduCertificate(EduCertificate eduCertificate)
     {
+        eduCertificate.setUpdateBy(SecurityUtils.getUsername());
         eduCertificate.setUpdateTime(DateUtils.getNowDate());
         return eduCertificateMapper.updateEduCertificate(eduCertificate);
     }
