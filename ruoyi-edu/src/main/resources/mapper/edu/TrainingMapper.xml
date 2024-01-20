@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.TrainingMapper">
+    
+    <resultMap type="Training" id="TrainingResult">
+        <result property="trainingId"    column="training_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="authorityId"    column="authority_id"    />
+        <result property="trainingName"    column="training_name"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="classHour"    column="class_hour"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTrainingVo">
+        select training_id, teacher_id, authority_id, training_name, start_time, end_time, class_hour, file_url, create_by, create_time, update_by, update_time from edu_training
+    </sql>
+
+    <select id="selectTrainingList" parameterType="Training" resultMap="TrainingResult">
+        <include refid="selectTrainingVo"/>
+        <where>  
+            <if test="teacherId != null "> and teacher_id = #{teacherId}</if>
+            <if test="authorityId != null "> and authority_id = #{authorityId}</if>
+            <if test="trainingName != null  and trainingName != ''"> and training_name like concat('%', #{trainingName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTrainingByTrainingId" parameterType="Long" resultMap="TrainingResult">
+        <include refid="selectTrainingVo"/>
+        where training_id = #{trainingId}
+    </select>
+        
+    <insert id="insertTraining" parameterType="Training" useGeneratedKeys="true" keyProperty="trainingId">
+        insert into edu_training
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="authorityId != null">authority_id,</if>
+            <if test="trainingName != null and trainingName != ''">training_name,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="classHour != null">class_hour,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="authorityId != null">#{authorityId},</if>
+            <if test="trainingName != null and trainingName != ''">#{trainingName},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="classHour != null">#{classHour},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTraining" parameterType="Training">
+        update edu_training
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="authorityId != null">authority_id = #{authorityId},</if>
+            <if test="trainingName != null and trainingName != ''">training_name = #{trainingName},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="classHour != null">class_hour = #{classHour},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where training_id = #{trainingId}
+    </update>
+
+    <delete id="deleteTrainingByTrainingId" parameterType="Long">
+        delete from edu_training where training_id = #{trainingId}
+    </delete>
+
+    <delete id="deleteTrainingByTrainingIds" parameterType="String">
+        delete from edu_training where training_id in 
+        <foreach item="trainingId" collection="array" open="(" separator="," close=")">
+            #{trainingId}
+        </foreach>
+    </delete>
+</mapper>

@@ -158,3 +158,27 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2035, '教师修改', 2032, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:edit', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
 (2036, '教师删除', 2032, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:remove', '#', 'admin', '2024-01-20 21:44:22', '', NULL, ''),
 (2037, '教师导出', 2032, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:export', '#', 'admin', '2024-01-20 21:44:22', '', NULL, '');
+
+CREATE TABLE `edu_training` (
+  `training_id` bigint NOT NULL AUTO_INCREMENT COMMENT '教师培训ID',
+  `teacher_id` bigint DEFAULT NULL COMMENT '教师ID',
+  `authority_id` bigint DEFAULT NULL COMMENT '培训机构ID',
+  `training_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '培训名称',
+  `start_time` datetime DEFAULT NULL COMMENT '开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `class_hour` int DEFAULT NULL COMMENT '培训学时',
+  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '证书附件',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`training_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师培训表';
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2038, '教师培训', 2007, 1, 'training', 'edu/training/index', NULL, 1, 0, 'C', '0', '0', 'edu:training:list', 'date', 'admin', '2024-01-20 22:24:28', 'admin', '2024-01-20 22:27:56', '教师培训菜单'),
+(2039, '教师培训查询', 2038, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:query', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
+(2040, '教师培训新增', 2038, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:add', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
+(2041, '教师培训修改', 2038, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:edit', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
+(2042, '教师培训删除', 2038, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:remove', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
+(2043, '教师培训导出', 2038, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:export', '#', 'admin', '2024-01-20 22:24:28', '', NULL, '');
