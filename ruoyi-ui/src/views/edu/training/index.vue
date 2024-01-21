@@ -89,22 +89,25 @@
 
     <el-table v-loading="loading" :data="trainingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="教师培训ID" align="center" prop="trainingId" />
-      <el-table-column label="教师" align="center" prop="teacher.teacherName" />
-      <el-table-column label="主办单位" align="center" prop="authority.authorityName" />
-      <el-table-column label="培训名称" align="center" prop="trainingName" />
-      <el-table-column label="开始时间" align="center" prop="startTime" width="180">
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="教师" align="center" prop="teacher.teacherName" width="120" />
+      <el-table-column label="主办单位" align="center" prop="authority.authorityName" width="180" />
+      <el-table-column label="培训名称" align="center" prop="trainingName" width="200" />
+      <el-table-column label="开始时间" align="center" prop="startTime" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="结束时间" align="center" prop="endTime" width="180">
+      <el-table-column label="结束时间" align="center" prop="endTime" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="培训学时" align="center" prop="classHour" />
-      <el-table-column label="证书附件" align="center" prop="fileUrl" />
+      <el-table-column label="培训学时" align="center" prop="classHour" width="100" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
