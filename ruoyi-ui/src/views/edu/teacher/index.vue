@@ -19,15 +19,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="部门ID" prop="deptId">
-        <el-input
-          v-model="queryParams.deptId"
-          placeholder="请输入部门ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -110,7 +101,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -128,8 +119,8 @@
         <el-form-item label="工号" prop="teacherCode">
           <el-input v-model="form.teacherCode" placeholder="请输入工号" />
         </el-form-item>
-        <el-form-item label="部门ID" prop="deptId">
-          <el-input v-model="form.deptId" placeholder="请输入部门ID" />
+        <el-form-item label="部门" prop="deptId">
+          <treeselect v-model="form.deptId" :options="deptOptions" :normalizer="normalizer" placeholder="请选择部门" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -142,9 +133,13 @@
 
 <script>
 import { listTeacher, getTeacher, delTeacher, addTeacher, updateTeacher, exportTeacher } from "@/api/edu/teacher";
+import { listDept } from "@/api/system/dept";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Teacher",
+  components: { Treeselect },
   data() {
     return {
       // 遮罩层
@@ -175,6 +170,8 @@ export default {
         teacherCode: null,
         deptId: null,
       },
+      // 部门树选项
+      deptOptions: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -187,8 +184,22 @@ export default {
   },
   created() {
     this.getList();
+    listDept().then(response => {
+        this.deptOptions = this.handleTree(response.data, "deptId");
+    });
   },
   methods: {
+    /** 转换部门数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.deptId,
+        label: node.deptName,
+        children: node.children
+      };
+    },
     /** 查询教师列表 */
     getList() {
       this.loading = true;
