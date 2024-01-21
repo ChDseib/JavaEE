@@ -17,24 +17,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <association property="teacher"    javaType="Teacher"    resultMap="teacherResult"   />
+        <association property="authority"    javaType="EduAuthority"    resultMap="authorityResult"   />
+    </resultMap>
+
+    <resultMap id="teacherResult" type="Teacher">
+        <id     property="teacherId"       column="teacher_id"     />
+        <result property="teacherName"     column="teacher_name"   />
+        <result property="teacherCode"     column="teacher_code"   />
+    </resultMap>
+
+    <resultMap id="authorityResult" type="EduAuthority">
+        <id     property="authorityId"       column="authority_id"     />
+        <result property="authorityName"     column="authority_name"   />
     </resultMap>
 
     <sql id="selectTrainingVo">
-        select training_id, teacher_id, authority_id, training_name, start_time, end_time, class_hour, file_url, create_by, create_time, update_by, update_time from edu_training
+        select t.training_id, t.teacher_id, t.authority_id, t.training_name, t.start_time, t.end_time, t.class_hour, t.file_url, t.create_by, t.create_time, t.update_by, t.update_time,
+            r.teacher_name, a.authority_name
+        from edu_training t
+            left join edu_teacher r on t.teacher_id = r.teacher_id
+            left join edu_authority a on t.authority_id = a.authority_id
     </sql>
 
     <select id="selectTrainingList" parameterType="Training" resultMap="TrainingResult">
         <include refid="selectTrainingVo"/>
         <where>  
-            <if test="teacherId != null "> and teacher_id = #{teacherId}</if>
-            <if test="authorityId != null "> and authority_id = #{authorityId}</if>
-            <if test="trainingName != null  and trainingName != ''"> and training_name like concat('%', #{trainingName}, '%')</if>
+            <if test="teacherId != null "> and t.teacher_id = #{teacherId}</if>
+            <if test="authorityId != null "> and t.authority_id = #{authorityId}</if>
+            <if test="trainingName != null  and trainingName != ''"> and t.training_name like concat('%', #{trainingName}, '%')</if>
         </where>
     </select>
     
     <select id="selectTrainingByTrainingId" parameterType="Long" resultMap="TrainingResult">
         <include refid="selectTrainingVo"/>
-        where training_id = #{trainingId}
+        where t.training_id = #{trainingId}
     </select>
         
     <insert id="insertTraining" parameterType="Training" useGeneratedKeys="true" keyProperty="trainingId">

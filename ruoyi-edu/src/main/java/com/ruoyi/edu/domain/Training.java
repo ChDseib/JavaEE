@@ -24,9 +24,13 @@ public class Training extends BaseEntity
     @Excel(name = "教师ID")
     private Long teacherId;
 
+    private Teacher teacher;
+
     /** 机构ID */
     @Excel(name = "机构ID")
     private Long authorityId;
+
+    private EduAuthority authority;
 
     /** 培训名称 */
     @Excel(name = "培训名称")
@@ -121,6 +125,22 @@ public class Training extends BaseEntity
     public String getFileUrl() 
     {
         return fileUrl;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public EduAuthority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(EduAuthority authority) {
+        this.authority = authority;
     }
 
     @Override

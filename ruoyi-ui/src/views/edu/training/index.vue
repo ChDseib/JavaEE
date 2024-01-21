@@ -85,8 +85,8 @@
     <el-table v-loading="loading" :data="trainingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="教师培训ID" align="center" prop="trainingId" />
-      <el-table-column label="教师ID" align="center" prop="teacherId" />
-      <el-table-column label="主办单位" align="center" prop="authorityId" />
+      <el-table-column label="教师" align="center" prop="teacher.teacherName" />
+      <el-table-column label="主办单位" align="center" prop="authority.authorityName" />
       <el-table-column label="培训名称" align="center" prop="trainingName" />
       <el-table-column label="开始时间" align="center" prop="startTime" width="180">
         <template slot-scope="scope">
