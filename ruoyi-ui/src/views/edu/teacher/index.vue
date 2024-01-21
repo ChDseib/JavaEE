@@ -83,7 +83,11 @@
 
     <el-table v-loading="loading" :data="teacherList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="教师ID" align="center" prop="teacherId" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="姓名" align="center" prop="teacherName" />
       <el-table-column label="工号" align="center" prop="teacherCode" />
       <el-table-column label="部门ID" align="center" prop="deptId" />
