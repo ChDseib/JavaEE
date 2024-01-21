@@ -10,14 +10,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="机构ID" prop="authorityId">
-        <el-input
-          v-model="queryParams.authorityId"
-          placeholder="请输入机构ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="主办单位" prop="authorityId">
+        <el-select v-model="queryParams.authorityId" placeholder="请选择主办单位" clearable size="small">
+          <el-option
+            v-for="item in authorityOptions"
+            :key="item.authorityId"
+            :label="item.authorityName"
+            :value="item.authorityId"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="培训名称" prop="trainingName">
         <el-input
@@ -85,7 +86,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="教师培训ID" align="center" prop="trainingId" />
       <el-table-column label="教师ID" align="center" prop="teacherId" />
-      <el-table-column label="机构ID" align="center" prop="authorityId" />
+      <el-table-column label="主办单位" align="center" prop="authorityId" />
       <el-table-column label="培训名称" align="center" prop="trainingName" />
       <el-table-column label="开始时间" align="center" prop="startTime" width="180">
         <template slot-scope="scope">
@@ -133,8 +134,15 @@
         <el-form-item label="教师ID" prop="teacherId">
           <el-input v-model="form.teacherId" placeholder="请输入教师ID" />
         </el-form-item>
-        <el-form-item label="机构ID" prop="authorityId">
-          <el-input v-model="form.authorityId" placeholder="请输入机构ID" />
+        <el-form-item label="主办单位" prop="authorityId">
+          <el-select v-model="form.authorityId" placeholder="请选择主办单位" clearable size="small">
+            <el-option
+              v-for="item in authorityOptions"
+              :key="item.authorityId"
+              :label="item.authorityName"
+              :value="item.authorityId"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="培训名称" prop="trainingName">
           <el-input v-model="form.trainingName" placeholder="请输入培训名称" />
@@ -172,6 +180,7 @@
 
 <script>
 import { listTraining, getTraining, delTraining, addTraining, updateTraining, exportTraining } from "@/api/edu/training";
+import { listAuthority } from "@/api/edu/authority";
 
 export default {
   name: "Training",
@@ -205,6 +214,8 @@ export default {
         authorityId: null,
         trainingName: null,
       },
+      // 主办单位选项
+      authorityOptions: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -213,7 +224,7 @@ export default {
           { required: true, message: "教师ID不能为空", trigger: "blur" }
         ],
         authorityId: [
-          { required: true, message: "机构ID不能为空", trigger: "blur" }
+          { required: true, message: "主办单位不能为空", trigger: "blur" }
         ],
         trainingName: [
           { required: true, message: "培训名称不能为空", trigger: "blur" }
@@ -223,8 +234,15 @@ export default {
   },
   created() {
     this.getList();
+    this.getAuthorityOptions();
   },
   methods: {
+    /** 获取主办单位选项 */
+    getAuthorityOptions() {
+      listAuthority().then(response => {
+        this.authorityOptions = response.rows;
+      });
+    },
     /** 查询教师培训列表 */
     getList() {
       this.loading = true;
