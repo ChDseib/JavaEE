@@ -13,24 +13,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <association property="dept"    javaType="SysDept"    resultMap="deptResult"   />
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id     property="deptId"       column="dept_id"     />
+        <result property="deptName"     column="dept_name"   />
     </resultMap>
 
     <sql id="selectTeacherVo">
-        select teacher_id, teacher_name, teacher_code, dept_id, create_by, create_time, update_by, update_time from edu_teacher
+        select t.teacher_id, t.teacher_name, t.teacher_code, t.dept_id, t.create_by, t.create_time, t.update_by, t.update_time,
+            d.dept_name
+        from edu_teacher t
+            left join sys_dept d on t.dept_id = d.dept_id
     </sql>
 
     <select id="selectTeacherList" parameterType="Teacher" resultMap="TeacherResult">
         <include refid="selectTeacherVo"/>
         <where>  
-            <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
-            <if test="teacherCode != null  and teacherCode != ''"> and teacher_code = #{teacherCode}</if>
-            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="teacherName != null  and teacherName != ''"> and t.teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="teacherCode != null  and teacherCode != ''"> and t.teacher_code = #{teacherCode}</if>
+            <if test="deptId != null "> and t.dept_id = #{deptId}</if>
         </where>
     </select>
     
     <select id="selectTeacherByTeacherId" parameterType="Long" resultMap="TeacherResult">
         <include refid="selectTeacherVo"/>
-        where teacher_id = #{teacherId}
+        where t.teacher_id = #{teacherId}
     </select>
         
     <insert id="insertTeacher" parameterType="Teacher" useGeneratedKeys="true" keyProperty="teacherId">
