@@ -1,14 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="教师ID" prop="teacherId">
-        <el-input
-          v-model="queryParams.teacherId"
-          placeholder="请输入教师ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="教师" prop="teacherId">
+        <el-select v-model="queryParams.teacherId" placeholder="请输入姓名" clearable size="small"
+          filterable
+          remote
+          :remote-method="searchTeacher"
+          :loading="loading">
+          <el-option
+            v-for="item in teacherOptions"
+            :key="item.teacherId"
+            :label="item.teacherName"
+            :value="item.teacherId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="主办单位" prop="authorityId">
         <el-select v-model="queryParams.authorityId" placeholder="请选择主办单位" clearable size="small">
@@ -131,8 +136,19 @@
     <!-- 添加或修改教师培训对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="教师ID" prop="teacherId">
-          <el-input v-model="form.teacherId" placeholder="请输入教师ID" />
+        <el-form-item label="教师" prop="teacherId">
+          <el-select v-model="form.teacherId" placeholder="请输入姓名" clearable size="small"
+            filterable
+            remote
+            :remote-method="searchTeacher"
+            :loading="loading">
+            <el-option
+              v-for="item in teacherOptions"
+              :key="item.teacherId"
+              :label="item.teacherName"
+              :value="item.teacherId">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="主办单位" prop="authorityId">
           <el-select v-model="form.authorityId" placeholder="请选择主办单位" clearable size="small">
@@ -180,6 +196,7 @@
 
 <script>
 import { listTraining, getTraining, delTraining, addTraining, updateTraining, exportTraining } from "@/api/edu/training";
+import { listTeacher } from "@/api/edu/teacher";
 import { listAuthority } from "@/api/edu/authority";
 
 export default {
@@ -214,6 +231,8 @@ export default {
         authorityId: null,
         trainingName: null,
       },
+      // 教师选项
+      teacherOptions: [],
       // 主办单位选项
       authorityOptions: [],
       // 表单参数
@@ -221,7 +240,7 @@ export default {
       // 表单校验
       rules: {
         teacherId: [
-          { required: true, message: "教师ID不能为空", trigger: "blur" }
+          { required: true, message: "教师不能为空", trigger: "blur" }
         ],
         authorityId: [
           { required: true, message: "主办单位不能为空", trigger: "blur" }
@@ -237,6 +256,22 @@ export default {
     this.getAuthorityOptions();
   },
   methods: {
+    /** 按姓名查询教师 */
+    searchTeacher(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          listTeacher({ teacherName: query }).then(response => {
+            this.teacherOptions = response.rows.filter(item => {
+              return item.teacherName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            });
+            this.loading = false;
+          });
+        }, 200);
+      } else {
+        this.teacherOptions = [];
+      }
+    },
     /** 获取主办单位选项 */
     getAuthorityOptions() {
       listAuthority().then(response => {
@@ -303,6 +338,7 @@ export default {
       const trainingId = row.trainingId || this.ids
       getTraining(trainingId).then(response => {
         this.form = response.data;
+        this.teacherOptions = [response.data.teacher];
         this.open = true;
         this.title = "修改教师培训";
       });
