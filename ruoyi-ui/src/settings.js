@@ -2,17 +2,17 @@ module.exports = {
     /**
      * 开启cas
      */
-    casEnable: true,
+    casEnable: false,
 
     /**
      * 单点登录url
      */
-    casloginUrl: 'http://localhost:8888/cas/login?service=http://localhost:8080',
+    casloginUrl: 'https://authserver.sandau.edu.cn/authserver/login?service=http://10.200.11.73:82',
 
     /**
      * 单点登出url
      */
-    caslogoutUrl: 'http://localhost:8888/cas/logout?service=http://localhost:8080',
+    caslogoutUrl: 'https://authserver.sandau.edu.cn/authserver/logout?service=http://10.200.11.73:82',
 
     /**
      * 侧边栏主题 深色主题theme-dark，浅色主题theme-light
