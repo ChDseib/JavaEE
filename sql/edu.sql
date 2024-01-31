@@ -1,3 +1,6 @@
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(5, '获奖信息', 0, 4, 'edu', NULL, NULL, 1, 0, 'M', '0', '0', '', 'validCode', 'admin', '2024-01-14 18:30:36', 'admin', '2024-01-17 19:00:28', '');
+
 CREATE TABLE `edu_student` (
   `student_id` bigint NOT NULL AUTO_INCREMENT COMMENT '学生ID',
   `student_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '姓名',
@@ -11,22 +14,13 @@ CREATE TABLE `edu_student` (
   PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='学生表';
 
--- 菜单 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生管理', '3', '1', 'student', 'edu/student/index', 1, 0, 'C', '0', '0', 'edu:student:list', '#', 'admin', sysdate(), '', null, '学生菜单');
--- 按钮父菜单ID
-SELECT @parentId := LAST_INSERT_ID();
--- 按钮 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生查询', @parentId, '1',  '#', '', 1, 0, 'F', '0', '0', 'edu:student:query',        '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生新增', @parentId, '2',  '#', '', 1, 0, 'F', '0', '0', 'edu:student:add',          '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生修改', @parentId, '3',  '#', '', 1, 0, 'F', '0', '0', 'edu:student:edit',         '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生删除', @parentId, '4',  '#', '', 1, 0, 'F', '0', '0', 'edu:student:remove',       '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生导出', @parentId, '5',  '#', '', 1, 0, 'F', '0', '0', 'edu:student:export',       '#', 'admin', sysdate(), '', null, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2000, '学生管理', 5, 1, 'student', 'edu/student/index', NULL, 1, 0, 'C', '0', '0', 'edu:student:list', 'people', 'admin', '2024-01-13 16:43:16', 'admin', '2024-01-14 19:10:49', '学生菜单'),
+(2001, '学生查询', 2000, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:student:query', '#', 'admin', '2024-01-13 16:43:16', 'admin', '2024-01-14 18:13:35', ''),
+(2002, '学生新增', 2000, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:student:add', '#', 'admin', '2024-01-13 16:43:16', 'admin', '2024-01-14 18:13:40', ''),
+(2003, '学生修改', 2000, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:student:edit', '#', 'admin', '2024-01-13 16:43:17', 'admin', '2024-01-14 18:13:45', ''),
+(2004, '学生删除', 2000, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:student:remove', '#', 'admin', '2024-01-13 16:43:17', 'admin', '2024-01-14 18:13:48', ''),
+(2005, '学生导出', 2000, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:student:export', '#', 'admin', '2024-01-13 16:43:17', 'admin', '2024-01-14 18:13:53', '');
 
 CREATE TABLE `edu_authority` (
   `authority_id` bigint NOT NULL AUTO_INCREMENT COMMENT '机构ID',
@@ -34,22 +28,13 @@ CREATE TABLE `edu_authority` (
   PRIMARY KEY (`authority_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='认证机构表';
 
--- 菜单 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('认证机构', '2007', '1', 'authority', 'edu/authority/index', 1, 0, 'C', '0', '0', 'edu:authority:list', '#', 'admin', sysdate(), '', null, '认证机构菜单');
--- 按钮父菜单ID
-SELECT @parentId := LAST_INSERT_ID();
--- 按钮 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('认证机构查询', @parentId, '1',  '#', '', 1, 0, 'F', '0', '0', 'edu:authority:query',        '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('认证机构新增', @parentId, '2',  '#', '', 1, 0, 'F', '0', '0', 'edu:authority:add',          '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('认证机构修改', @parentId, '3',  '#', '', 1, 0, 'F', '0', '0', 'edu:authority:edit',         '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('认证机构删除', @parentId, '4',  '#', '', 1, 0, 'F', '0', '0', 'edu:authority:remove',       '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('认证机构导出', @parentId, '5',  '#', '', 1, 0, 'F', '0', '0', 'edu:authority:export',       '#', 'admin', sysdate(), '', null, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2008, '认证机构', 5, 1, 'authority', 'edu/authority/index', NULL, 1, 0, 'C', '0', '0', 'edu:authority:list', 'example', 'admin', '2024-01-14 19:27:03', 'admin', '2024-01-17 19:02:49', '认证机构菜单'),
+(2009, '认证机构查询', 2008, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:authority:query', '#', 'admin', '2024-01-14 19:27:03', '', NULL, ''),
+(2010, '认证机构新增', 2008, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:authority:add', '#', 'admin', '2024-01-14 19:27:03', '', NULL, ''),
+(2011, '认证机构修改', 2008, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:authority:edit', '#', 'admin', '2024-01-14 19:27:03', '', NULL, ''),
+(2012, '认证机构删除', 2008, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:authority:remove', '#', 'admin', '2024-01-14 19:27:03', '', NULL, ''),
+(2013, '认证机构导出', 2008, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:authority:export', '#', 'admin', '2024-01-14 19:27:03', '', NULL, '');
 
 CREATE TABLE `edu_certificate` (
   `certificate_id` bigint NOT NULL AUTO_INCREMENT COMMENT '学生证书ID',
@@ -65,22 +50,13 @@ CREATE TABLE `edu_certificate` (
   PRIMARY KEY (`certificate_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='学生证书表';
 
--- 菜单 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生证书', '2007', '1', 'certificate', 'edu/certificate/index', 1, 0, 'C', '0', '0', 'edu:certificate:list', '#', 'admin', sysdate(), '', null, '学生证书菜单');
--- 按钮父菜单ID
-SELECT @parentId := LAST_INSERT_ID();
--- 按钮 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生证书查询', @parentId, '1',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:query',        '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生证书新增', @parentId, '2',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:add',          '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生证书修改', @parentId, '3',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:edit',         '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生证书删除', @parentId, '4',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:remove',       '#', 'admin', sysdate(), '', null, '');
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('学生证书导出', @parentId, '5',  '#', '', 1, 0, 'F', '0', '0', 'edu:certificate:export',       '#', 'admin', sysdate(), '', null, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2014, '学生证书', 5, 1, 'certificate', 'edu/certificate/index', NULL, 1, 0, 'C', '0', '0', 'edu:certificate:list', 'skill', 'admin', '2024-01-15 08:23:10', 'admin', '2024-01-15 10:06:29', '学生证书菜单'),
+(2015, '学生证书查询', 2014, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:certificate:query', '#', 'admin', '2024-01-15 08:23:10', '', NULL, ''),
+(2016, '学生证书新增', 2014, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:certificate:add', '#', 'admin', '2024-01-15 08:23:10', '', NULL, ''),
+(2017, '学生证书修改', 2014, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:certificate:edit', '#', 'admin', '2024-01-15 08:23:10', '', NULL, ''),
+(2018, '学生证书删除', 2014, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:certificate:remove', '#', 'admin', '2024-01-15 08:23:10', '', NULL, ''),
+(2019, '学生证书导出', 2014, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:certificate:export', '#', 'admin', '2024-01-15 08:23:10', '', NULL, '');
 
 CREATE TABLE `edu_contest` (
   `contest_id` bigint NOT NULL AUTO_INCREMENT COMMENT '竞赛ID',
@@ -91,7 +67,7 @@ CREATE TABLE `edu_contest` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='竞赛表';
 
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
-(2020, '学科竞赛', 2007, 1, 'contest', 'edu/contest/index', NULL, 1, 0, 'C', '0', '0', 'edu:contest:list', 'row', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:22:46', '竞赛管理菜单'),
+(2020, '学科竞赛', 5, 1, 'contest', 'edu/contest/index', NULL, 1, 0, 'C', '0', '0', 'edu:contest:list', 'row', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:22:46', '竞赛管理菜单'),
 (2021, '竞赛查询', 2020, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:query', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:01', ''),
 (2022, '竞赛新增', 2020, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:add', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:07', ''),
 (2023, '竞赛修改', 2020, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:contest:edit', '#', 'admin', '2024-01-17 11:37:12', 'admin', '2024-01-17 12:23:12', ''),
@@ -123,7 +99,7 @@ CREATE TABLE `edu_award` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='奖项表';
 
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
-(2026, '学生奖项', 2007, 1, 'award', 'edu/award/index', NULL, 1, 0, 'C', '0', '0', 'edu:award:list', 'rate', 'admin', '2024-01-17 13:59:42', 'admin', '2024-01-17 14:01:22', '奖项菜单'),
+(2026, '学生奖项', 5, 1, 'award', 'edu/award/index', NULL, 1, 0, 'C', '0', '0', 'edu:award:list', 'rate', 'admin', '2024-01-17 13:59:42', 'admin', '2024-01-17 14:01:22', '奖项菜单'),
 (2027, '奖项查询', 2026, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:award:query', '#', 'admin', '2024-01-17 13:59:42', '', NULL, ''),
 (2028, '奖项新增', 2026, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:award:add', '#', 'admin', '2024-01-17 13:59:42', '', NULL, ''),
 (2029, '奖项修改', 2026, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:award:edit', '#', 'admin', '2024-01-17 13:59:42', '', NULL, ''),
@@ -152,7 +128,7 @@ CREATE TABLE `edu_teacher` (
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师表';
 
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
-(2032, '教师管理', 2007, 1, 'teacher', 'edu/teacher/index', NULL, 1, 0, 'C', '0', '0', 'edu:teacher:list', 'user', 'admin', '2024-01-20 21:44:21', 'admin', '2024-01-20 21:46:55', '教师菜单'),
+(2032, '教师管理', 5, 1, 'teacher', 'edu/teacher/index', NULL, 1, 0, 'C', '0', '0', 'edu:teacher:list', 'user', 'admin', '2024-01-20 21:44:21', 'admin', '2024-01-20 21:46:55', '教师菜单'),
 (2033, '教师查询', 2032, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:query', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
 (2034, '教师新增', 2032, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:add', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
 (2035, '教师修改', 2032, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:teacher:edit', '#', 'admin', '2024-01-20 21:44:21', '', NULL, ''),
@@ -176,7 +152,7 @@ CREATE TABLE `edu_training` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师培训表';
 
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
-(2038, '教师培训', 2007, 1, 'training', 'edu/training/index', NULL, 1, 0, 'C', '0', '0', 'edu:training:list', 'date', 'admin', '2024-01-20 22:24:28', 'admin', '2024-01-20 22:27:56', '教师培训菜单'),
+(2038, '教师培训', 5, 1, 'training', 'edu/training/index', NULL, 1, 0, 'C', '0', '0', 'edu:training:list', 'date', 'admin', '2024-01-20 22:24:28', 'admin', '2024-01-20 22:27:56', '教师培训菜单'),
 (2039, '教师培训查询', 2038, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:query', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
 (2040, '教师培训新增', 2038, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:add', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
 (2041, '教师培训修改', 2038, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:edit', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
