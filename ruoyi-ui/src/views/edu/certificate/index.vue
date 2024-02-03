@@ -338,6 +338,7 @@ export default {
       const certificateId = row.certificateId || this.ids
       getCertificate(certificateId).then(response => {
         this.form = response.data;
+        this.studentOptions = [response.data.student];
         this.open = true;
         this.title = "修改学生证书";
       });
