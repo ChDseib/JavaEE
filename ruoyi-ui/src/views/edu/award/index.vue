@@ -385,6 +385,7 @@ export default {
       const awardId = row.awardId || this.ids
       getAward(awardId).then(response => {
         this.form = response.data;
+        this.studentOptions = [response.data.student];
         this.open = true;
         this.title = "修改奖项";
       });
