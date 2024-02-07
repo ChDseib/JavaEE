@@ -92,7 +92,11 @@
 
     <el-table v-loading="loading" :data="studentList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="学生ID" align="center" prop="studentId" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="姓名" align="center" prop="studentName" />
       <el-table-column label="学号" align="center" prop="studentCode" />
       <el-table-column label="班级" align="center" prop="className" />
@@ -116,7 +120,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
