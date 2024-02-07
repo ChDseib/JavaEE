@@ -17,7 +17,7 @@ module.exports = {
     /**
      * 侧边栏主题 深色主题theme-dark，浅色主题theme-light
      */
-    sideTheme: 'theme-dark',
+    sideTheme: 'theme-light',
 
     /**
      * 是否系统布局配置
@@ -27,7 +27,7 @@ module.exports = {
     /**
      * 是否显示顶部导航
      */
-    topNav: false,
+    topNav: true,
 
     /**
      * 是否显示 tagsView
@@ -37,7 +37,7 @@ module.exports = {
     /**
      * 是否固定头部
      */
-    fixedHeader: false,
+    fixedHeader: true,
 
     /**
      * 是否显示logo
