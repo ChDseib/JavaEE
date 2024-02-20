@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.ParttimeMapper">
+
+    <resultMap type="Parttime" id="ParttimeResult">
+        <result property="parttimeId" column="parttime_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="category" column="category"/>
+        <result property="employer" column="employer"/>
+        <result property="position" column="position"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="teacher" javaType="Teacher" resultMap="TeacherResult"/>
+    </resultMap>
+
+    <resultMap type="Teacher" id="TeacherResult">
+        <result property="teacherId" column="teacher_id"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="teacherCode" column="teacher_code"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectParttimeVo">
+        select ep.parttime_id, ep.teacher_id, ep.category, ep.employer, ep.position,  ep.create_by,
+               ep.create_time,
+               ep.update_by,
+               ep.update_time, et.teacher_name
+        from edu_parttime ep LEFT JOIN edu_teacher et on et.teacher_id = ep.teacher_id
+    </sql>
+
+    <select id="selectParttimeList" parameterType="Parttime" resultMap="ParttimeResult">
+        <include refid="selectParttimeVo"/>
+        <where>
+            <if test="teacherId != null ">and ep.teacher_id = #{teacherId}</if>
+            <if test="category != null  and category != ''">and ep.category = #{category}</if>
+            <if test="employer != null  and employer != ''">and ep.employer = #{employer}</if>
+            <if test="position != null  and position != ''">and ep.position = #{position}</if>
+        </where>
+    </select>
+
+    <select id="selectParttimeByParttimeId" parameterType="Long" resultMap="ParttimeResult">
+        <include refid="selectParttimeVo"/>
+        where parttime_id = #{parttimeId}
+    </select>
+
+    <insert id="insertParttime" parameterType="Parttime" useGeneratedKeys="true" keyProperty="parttimeId">
+        insert into edu_parttime
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="category != null">category,</if>
+            <if test="employer != null">employer,</if>
+            <if test="position != null">position,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="category != null">#{category},</if>
+            <if test="employer != null">#{employer},</if>
+            <if test="position != null">#{position},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateParttime" parameterType="Parttime">
+        UPDATE edu_parttime ep
+        LEFT JOIN sys_user u ON ep.create_by = u.user_name
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherId != null">ep.teacher_id = #{teacherId},</if>
+            <if test="category != null">ep.category = #{category},</if>
+            <if test="employer != null">ep.employer = #{employer},</if>
+            <if test="position != null">ep.position = #{position},</if>
+            <if test="createBy != null">ep.create_by = #{createBy},</if>
+            <if test="createTime != null">ep.create_time = #{createTime},</if>
+            <if test="updateBy != null">ep.update_by = #{updateBy},</if>
+            <if test="updateTime != null">ep.update_time = #{updateTime},</if>
+        </trim>
+        where ep.parttime_id = #{parttimeId}
+    </update>
+
+    <delete id="deleteParttimeByParttimeId" parameterType="Long">
+        delete
+        from edu_parttime
+        where parttime_id = #{parttimeId}
+    </delete>
+
+
+    <delete id="deleteParttimeByParttimeIds" parameterType="String">
+        delete ep from edu_parttime ep LEFT JOIN sys_user u ON ep.create_by = u.user_name where parttime_id in
+        <foreach item="parttimeId" collection="array" open="(" separator="," close=")">
+            #{parttimeId}
+        </foreach>
+    </delete>
+</mapper>

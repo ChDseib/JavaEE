@@ -158,3 +158,30 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2041, '教师培训修改', 2038, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:edit', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
 (2042, '教师培训删除', 2038, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:remove', '#', 'admin', '2024-01-20 22:24:28', '', NULL, ''),
 (2043, '教师培训导出', 2038, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:training:export', '#', 'admin', '2024-01-20 22:24:28', '', NULL, '');
+
+CREATE TABLE `edu_parttime` (
+  `parttime_id` bigint NOT NULL AUTO_INCREMENT COMMENT '社会兼职ID',
+  `teacher_id` bigint DEFAULT NULL COMMENT '教师ID',
+  `category` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类别',
+  `employer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '兼职单位',
+  `position` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '兼职职务',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`parttime_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='社会兼职表';
+
+INSERT INTO `sys_dict_type`(`dict_id`, `dict_name`, `dict_type`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (102, '兼职类别', 'edu_parttime_category', '0', 'admin', '2024-02-06 16:18:59', '', NULL, '兼职类别列表');
+INSERT INTO `sys_dict_data`(`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (109, 0, '行业指导教师', '0', 'edu_parttime_category', NULL, 'default', 'N', '0', 'admin', '2024-02-06 16:34:00', '', NULL, NULL);
+INSERT INTO `sys_dict_data`(`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (110, 1, '省、市学术组织任职', '1', 'edu_parttime_category', NULL, 'default', 'N', '0', 'admin', '2024-02-06 16:34:18', 'admin', '2024-02-06 16:34:35', NULL);
+INSERT INTO `sys_dict_data`(`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (111, 2, '国家、省市教指委或认证机构任职', '2', 'edu_parttime_category', NULL, 'default', 'N', '0', 'admin', '2024-02-06 16:34:31', '', NULL, NULL);
+INSERT INTO `sys_dict_data`(`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (112, 3, '全国性学术组织任职', '3', 'edu_parttime_category', NULL, 'default', 'N', '0', 'admin', '2024-02-06 16:34:46', '', NULL, NULL);
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2050, '社会兼职', 5, 1, 'parttime', 'edu/parttime/index', NULL, 1, 0, 'C', '0', '0', 'edu:parttime:list', 'post', 'admin', '2024-02-17 10:45:32', 'admin', '2024-02-17 10:47:40', '社会兼职菜单'),
+(2051, '社会兼职查询', 2050, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:query', '#', 'admin', '2024-02-17 10:45:32', '', NULL, ''),
+(2052, '社会兼职新增', 2050, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:add', '#', 'admin', '2024-02-17 10:45:32', '', NULL, ''),
+(2053, '社会兼职修改', 2050, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:edit', '#', 'admin', '2024-02-17 10:45:32', '', NULL, ''),
+(2054, '社会兼职删除', 2050, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:remove', '#', 'admin', '2024-02-17 10:45:32', '', NULL, ''),
+(2055, '社会兼职导出', 2050, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:export', '#', 'admin', '2024-02-17 10:45:32', '', NULL, '');
