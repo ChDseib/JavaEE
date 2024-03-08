@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '获奖管理系统',
+      title: '成果管理系统',
       logo: logoImg
     }
   }

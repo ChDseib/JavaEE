@@ -2,7 +2,7 @@
   <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>获奖管理系统</h2>
+        <h2>成果管理系统</h2>
         <p>
           本系统是专为组织、管理各种证书、奖项而设计的软件。它集成了学生管理、认证机构、证书管理、竞赛管理、奖项管理等功能，旨在为学生获奖信息的管理提供全面、高效的解决方案。
         </p>
@@ -21,15 +21,8 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/y_project/RuoYi-Vue')"
+            @click="goTarget('https://gitee.com/goldenpond/RuoYi-Vue-cas')"
             >访问码云</el-button
-          >
-          <el-button
-            size="mini"
-            icon="el-icon-s-home"
-            plain
-            @click="goTarget('http://ruoyi.vip')"
-            >访问主页</el-button
           >
         </p>
       </el-col>
@@ -100,7 +93,7 @@
           <el-collapse accordion>
             <el-collapse-item title="v1.0.0 - 2024-01-20">
               <ol>
-                <li>获奖管理系统第一个正式版本发布</li>
+                <li>成果管理系统第一个正式版本发布</li>
               </ol>
             </el-collapse-item>
           </el-collapse>
