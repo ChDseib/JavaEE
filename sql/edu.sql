@@ -185,3 +185,25 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2053, '社会兼职修改', 2050, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:edit', '#', 'admin', '2024-02-17 10:45:32', '', NULL, ''),
 (2054, '社会兼职删除', 2050, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:remove', '#', 'admin', '2024-02-17 10:45:32', '', NULL, ''),
 (2055, '社会兼职导出', 2050, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:parttime:export', '#', 'admin', '2024-02-17 10:45:32', '', NULL, '');
+
+CREATE TABLE `edu_honor` (
+  `honor_id` bigint NOT NULL AUTO_INCREMENT COMMENT '奖项ID',
+  `teacher_id` bigint DEFAULT NULL COMMENT '教师ID',
+  `honor_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '奖项',
+  `level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '级别',
+  `issue_time` datetime DEFAULT NULL COMMENT '获奖时间',
+  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '附件',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`honor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师奖项表';
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2044, '教师奖项', 5, 1, 'honor', 'edu/honor/index', NULL, 1, 0, 'C', '0', '0', 'edu:honor:list', 'star', 'admin', '2024-02-03 15:03:30', 'admin', '2024-03-08 12:46:14', '教师奖项菜单'),
+(2045, '教师奖项查询', 2044, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:query', '#', 'admin', '2024-02-03 15:03:30', '', NULL, ''),
+(2046, '教师奖项新增', 2044, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:add', '#', 'admin', '2024-02-03 15:03:30', '', NULL, ''),
+(2047, '教师奖项修改', 2044, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:edit', '#', 'admin', '2024-02-03 15:03:30', '', NULL, ''),
+(2048, '教师奖项删除', 2044, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:remove', '#', 'admin', '2024-02-03 15:03:30', '', NULL, ''),
+(2049, '教师奖项导出', 2044, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:export', '#', 'admin', '2024-02-03 15:03:30', '', NULL, '');

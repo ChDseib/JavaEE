@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.EduHonorMapper">
+
+    <resultMap type="EduHonor" id="EduHonorResult">
+        <result property="honorId" column="honor_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="honorName" column="honor_name"/>
+        <result property="level" column="level"/>
+        <result property="issueTime" column="issue_time"/>
+        <result property="fileUrl" column="file_url"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="teacher" javaType="Teacher" resultMap="TeacherResult"/>
+    </resultMap>
+
+
+    <resultMap type="Teacher" id="TeacherResult">
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="teacherCode"    column="teacher_code"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+
+    <sql id="selectEduHonorVo">
+        select eh.honor_id,
+               eh.teacher_id,
+               eh.honor_name,
+               eh.level,
+               eh.issue_time,
+               eh.file_url,
+               eh.create_by,
+               eh.create_time,
+               eh.update_by,
+               eh.update_time,et.teacher_name,et.teacher_code
+        from edu_honor eh LEFT JOIN edu_teacher et on eh.teacher_id=et.teacher_id
+    </sql>
+
+    <select id="selectEduHonorList" parameterType="EduHonor" resultMap="EduHonorResult">
+        <include refid="selectEduHonorVo"/>
+        <where>
+            <if test="teacherId != null ">and  eh.teacher_id = #{teacherId}</if>
+            <if test="honorName != null  and honorName != ''">and  eh.honor_name like concat('%', #{honorName}, '%')</if>
+            <if test="level != null  and level != ''">and  eh.level = #{level}</if>
+            <if test="issueTime != null ">and  DATE_FORMAT(eh.issue_time, '%Y-%m') = DATE_FORMAT(#{issueTime}, '%Y-%m')</if>
+            <if test="fileUrl != null  and fileUrl != ''">and  eh.file_url = #{fileUrl}</if>
+        </where>
+    </select>
+
+    <select id="selectEduHonorByHonorId" parameterType="Long" resultMap="EduHonorResult">
+        <include refid="selectEduHonorVo"/>
+        where eh.honor_id = #{honorId}
+    </select>
+
+    <insert id="insertEduHonor" parameterType="EduHonor" useGeneratedKeys="true" keyProperty="honorId">
+        insert into edu_honor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="honorName != null">honor_name,</if>
+            <if test="level != null">level,</if>
+            <if test="issueTime != null">issue_time,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="honorName != null">#{honorName},</if>
+            <if test="level != null">#{level},</if>
+            <if test="issueTime != null">#{issueTime},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEduHonor" parameterType="EduHonor">
+        update edu_honor
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="honorName != null">honor_name = #{honorName},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="issueTime != null">issue_time = #{issueTime},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where honor_id = #{honorId}
+    </update>
+
+    <delete id="deleteEduHonorByHonorId" parameterType="Long">
+        delete
+        from edu_honor
+        where honor_id = #{honorId}
+    </delete>
+
+    <delete id="deleteEduHonorByHonorIds" parameterType="String">
+        delete from edu_honor where honor_id in
+        <foreach item="honorId" collection="array" open="(" separator="," close=")">
+            #{honorId}
+        </foreach>
+    </delete>
+</mapper>
