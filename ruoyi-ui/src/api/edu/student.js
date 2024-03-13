@@ -42,7 +42,13 @@ export function delStudent(studentId) {
     method: 'delete'
   })
 }
-
+// 下载用户导入模板
+export function importTemplateStu() {
+  return request({
+    url: '/edu/student/importTemplate',
+    method: 'get'
+  })
+}
 // 导出学生
 export function exportStudent(query) {
   return request({

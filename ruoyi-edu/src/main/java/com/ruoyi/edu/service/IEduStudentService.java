@@ -58,4 +58,6 @@ public interface IEduStudentService
      * @return 结果
      */
     public int deleteEduStudentByStudentId(Long studentId);
+
+    public String importStudent(List<EduStudent> studentList, boolean updateSupport, String operName);
 }

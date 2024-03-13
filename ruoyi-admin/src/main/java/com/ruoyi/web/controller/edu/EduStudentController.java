@@ -19,6 +19,7 @@ import com.ruoyi.edu.domain.EduStudent;
 import com.ruoyi.edu.service.IEduStudentService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 学生Controller
@@ -99,5 +100,23 @@ public class EduStudentController extends BaseController
     public AjaxResult remove(@PathVariable Long[] studentIds)
     {
         return toAjax(eduStudentService.deleteEduStudentByStudentIds(studentIds));
+    }
+
+    @Log(title = "学生", businessType = BusinessType.IMPORT)
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        ExcelUtil<EduStudent> util = new ExcelUtil<EduStudent>(EduStudent.class);
+        List<EduStudent> userList = util.importExcel(file.getInputStream());
+        String operName = getUsername();
+        String message = eduStudentService.importStudent(userList, updateSupport, operName);
+        return AjaxResult.success(message);
+    }
+
+    @GetMapping("/importTemplate")
+    public AjaxResult importTemplate()
+    {
+        ExcelUtil<EduStudent> util = new ExcelUtil<EduStudent>(EduStudent.class);
+        return util.importTemplateExcel("学生数据");
     }
 }
