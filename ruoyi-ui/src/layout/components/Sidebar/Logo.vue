@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '成果管理系统',
+      title: '杉之小满',
       logo: logoImg
     }
   }
