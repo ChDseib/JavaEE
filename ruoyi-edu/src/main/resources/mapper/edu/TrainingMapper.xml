@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="authorityId != null "> and t.authority_id = #{authorityId}</if>
             <if test="trainingName != null  and trainingName != ''"> and t.training_name like concat('%', #{trainingName}, '%')</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectTrainingByTrainingId" parameterType="Long" resultMap="TrainingResult">
