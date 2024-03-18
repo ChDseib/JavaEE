@@ -207,3 +207,32 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2047, '教师奖项修改', 2044, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:edit', '#', 'admin', '2024-02-03 15:03:30', '', NULL, ''),
 (2048, '教师奖项删除', 2044, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:remove', '#', 'admin', '2024-02-03 15:03:30', '', NULL, ''),
 (2049, '教师奖项导出', 2044, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:honor:export', '#', 'admin', '2024-02-03 15:03:30', '', NULL, '');
+
+CREATE TABLE `edu_course` (
+  `course_id` bigint NOT NULL AUTO_INCREMENT COMMENT '课程ID',
+  `teacher_id` bigint DEFAULT NULL COMMENT '负责人',
+  `course_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程名称',
+  `level` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '级别',
+  `course_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类别',
+  `issue_time` datetime DEFAULT NULL COMMENT '认定时间',
+  `external_amount` double DEFAULT NULL COMMENT '上级拨款',
+  `internal_amount` double DEFAULT NULL COMMENT '校内配套',
+  PRIMARY KEY (`course_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='课程表';
+
+INSERT INTO `sys_dict_type` (`dict_id`, `dict_name`, `dict_type`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(103, '课程类别', 'edu_course_type', '0', 'admin', '2024-03-18 15:31:34', 'admin', '2024-03-18 15:47:14', '课程类别列表');
+INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(113, 1, '线下课程', '1', 'edu_course_type', NULL, 'default', 'N', '0', 'admin', '2024-03-18 15:32:23', '', NULL, NULL),
+(114, 2, '课程思政示范课程', '2', 'edu_course_type', NULL, 'default', 'N', '0', 'admin', '2024-03-18 15:32:37', '', NULL, NULL),
+(115, 3, '线上线下混合一流课程', '3', 'edu_course_type', NULL, 'default', 'N', '0', 'admin', '2024-03-18 15:32:56', '', NULL, NULL),
+(116, 4, '虚拟仿真实验教学课程', '4', 'edu_course_type', NULL, 'default', 'N', '0', 'admin', '2024-03-18 15:33:23', '', NULL, NULL),
+(117, 5, '重点课程', '5', 'edu_course_type', NULL, 'default', 'N', '0', 'admin', '2024-03-18 15:33:50', '', NULL, NULL);
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2062, '课程建设', 5, 1, 'course', 'edu/course/index', NULL, 1, 0, 'C', '0', '0', 'edu:course:list', 'clipboard', 'admin', '2024-03-18 15:23:21', 'admin', '2024-03-18 15:40:13', '课程菜单'),
+(2063, '课程查询', 2062, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:query', '#', 'admin', '2024-03-18 15:23:21', '', NULL, ''),
+(2064, '课程新增', 2062, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:add', '#', 'admin', '2024-03-18 15:23:21', '', NULL, ''),
+(2065, '课程修改', 2062, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:edit', '#', 'admin', '2024-03-18 15:23:21', '', NULL, ''),
+(2066, '课程删除', 2062, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:remove', '#', 'admin', '2024-03-18 15:23:21', '', NULL, ''),
+(2067, '课程导出', 2062, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:export', '#', 'admin', '2024-03-18 15:23:21', '', NULL, '');
