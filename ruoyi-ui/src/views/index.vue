@@ -27,8 +27,16 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/goldenpond/RuoYi-Vue-cas')"
-            >访问码云</el-button
+            @click="goTarget('https://gitee.com/goldenpond/RuoYi-Vue-cas/wikis/Home')"
+            >关于项目</el-button
+          >
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-user"
+            plain
+            @click="goTarget('https://gitee.com/goldenpond/RuoYi-Vue-cas/wikis/%E5%BC%80%E5%8F%91%E5%9B%A2%E9%98%9F')"
+            >开发团队</el-button
           >
         </p>
       </el-col>
