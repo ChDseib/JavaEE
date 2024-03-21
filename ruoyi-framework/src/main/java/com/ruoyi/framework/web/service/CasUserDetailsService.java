@@ -47,6 +47,8 @@ public class CasUserDetailsService implements AuthenticationUserDetailsService<C
 			userService.insertUser(user);
 			if (username.startsWith("SD")) {
 				roleService.insertAuthUsers(100L, new Long[]{user.getUserId()});
+			} else if (username.startsWith("b230151")) {
+				roleService.insertAuthUsers(101L, new Long[]{user.getUserId()});
 			}
 		} else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
 			log.info("登录用户：{} 已被删除.", username);
