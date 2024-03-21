@@ -47,7 +47,7 @@ public class CasUserDetailsService implements AuthenticationUserDetailsService<C
 			userService.insertUser(user);
 			if (username.startsWith("SD")) {
 				roleService.insertAuthUsers(100L, new Long[]{user.getUserId()});
-			} else if (username.startsWith("b230151")) {
+			} else if (username.startsWith("b2") || username.startsWith("f2")) {
 				roleService.insertAuthUsers(101L, new Long[]{user.getUserId()});
 			}
 		} else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
