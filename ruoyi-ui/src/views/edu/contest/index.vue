@@ -84,7 +84,11 @@
 
     <el-table v-loading="loading" :data="contestList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="竞赛ID" align="center" prop="contestId" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="竞赛名称" align="center" prop="contestName" />
       <el-table-column label="级别" align="center" prop="level">
         <template slot-scope="scope">

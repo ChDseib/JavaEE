@@ -108,7 +108,11 @@
 
     <el-table v-loading="loading" :data="certificateList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="学生证书ID" align="center" prop="certificateId" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="学生姓名" align="center" prop="student.studentName" />
       <el-table-column label="认证机构" align="center" prop="authority.authorityName" />
       <el-table-column label="证书名称" align="center" prop="certificateName" />

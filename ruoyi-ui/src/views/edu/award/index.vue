@@ -127,7 +127,11 @@
 
     <el-table v-loading="loading" :data="awardList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="奖项ID" align="center" prop="awardId" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="学生姓名" align="center" prop="student.studentName" />
       <el-table-column label="竞赛" align="center" prop="contest.contestName" />
       <el-table-column label="等级" align="center" prop="grade">
