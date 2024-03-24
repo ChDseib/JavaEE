@@ -1,6 +1,11 @@
 package com.ruoyi.edu.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.edu.domain.AchievementTeacher;
+import com.ruoyi.edu.mapper.AchievementTeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.edu.mapper.AchievementMapper;
@@ -19,6 +24,8 @@ public class AchievementServiceImpl implements IAchievementService
     @Autowired
     private AchievementMapper achievementMapper;
 
+    @Autowired
+    private AchievementTeacherMapper achievementTeacherMapper;
     /**
      * 查询教学成果
      * 
@@ -52,7 +59,9 @@ public class AchievementServiceImpl implements IAchievementService
     @Override
     public int insertAchievement(Achievement achievement)
     {
-        return achievementMapper.insertAchievement(achievement);
+        int rows = achievementMapper.insertAchievement(achievement);
+        insertAchievementTeacher(achievement);
+        return rows;
     }
 
     /**
@@ -89,5 +98,25 @@ public class AchievementServiceImpl implements IAchievementService
     public int deleteAchievementByAchievementId(Long achievementId)
     {
         return achievementMapper.deleteAchievementByAchievementId(achievementId);
+    }
+
+    public void insertAchievementTeacher(Achievement achievement)
+    {
+        Long[] teachers = achievement.getTeacherIds();
+        if (StringUtils.isNotNull(teachers))
+        {
+            List<AchievementTeacher> list = new ArrayList<AchievementTeacher>();
+            for (Long teacherId : teachers)
+            {
+                AchievementTeacher at = new AchievementTeacher();
+                at.setAchievementId(achievement.getAchievementId());
+                at.setTeacherId(teacherId);
+                list.add(at);
+            }
+            if (list.size() > 0)
+            {
+                achievementTeacherMapper.batchAchievementTeacher(list);
+            }
+        }
     }
 }

@@ -148,6 +148,17 @@
         <el-form-item label="名称" prop="achievementName">
           <el-input v-model="form.achievementName" placeholder="请输入名称" />
         </el-form-item>
+        <el-form-item label="负责人">
+          <el-select v-model="form.teacherIds" multiple placeholder="请选择">
+            <el-option
+              v-for="item in teacherOptions"
+              :key="item.teacherId"
+              :label="item.teacherName"
+              :value="item.teacherId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="级别" prop="level">
           <el-select v-model="form.level" placeholder="请选择级别">
             <el-option
@@ -212,6 +223,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 教师选项
+      teacherOptions: [],
       // 级别字典
       levelOptions: [],
       // 等级字典
@@ -261,6 +274,7 @@ export default {
       this.form = {
         achievementId: null,
         achievementName: null,
+        teacherIds: [],
         level: null,
         grade: null,
         issueTime: null
@@ -298,6 +312,7 @@ export default {
       const achievementId = row.achievementId || this.ids
       getAchievement(achievementId).then(response => {
         this.form = response.data;
+        this.form.teacherIds = response.teacherIds;
         this.open = true;
         this.title = "修改教学成果";
       });

@@ -253,3 +253,8 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2071, '教学成果修改', 2068, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:edit', '#', 'admin', '2024-03-24 09:51:23', '', NULL, ''),
 (2072, '教学成果删除', 2068, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:remove', '#', 'admin', '2024-03-24 09:51:23', '', NULL, ''),
 (2073, '教学成果导出', 2068, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:export', '#', 'admin', '2024-03-24 09:51:23', '', NULL, '');
+
+CREATE TABLE `edu_achievement_teacher` (
+  `achievement_id` bigint DEFAULT NULL,
+  `teacher_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教学成果与教师关联表';

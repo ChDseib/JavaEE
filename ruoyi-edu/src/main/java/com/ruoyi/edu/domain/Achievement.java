@@ -37,6 +37,9 @@ public class Achievement extends BaseEntity
     @Excel(name = "获奖时间", width = 30, dateFormat = "yyyy-MM")
     private Date issueTime;
 
+    /** 负责人 */
+    private Long[] teacherIds;
+
     public void setAchievementId(Long achievementId) 
     {
         this.achievementId = achievementId;
@@ -81,6 +84,14 @@ public class Achievement extends BaseEntity
     public Date getIssueTime() 
     {
         return issueTime;
+    }
+
+    public Long[] getTeacherIds() {
+        return teacherIds;
+    }
+
+    public void setTeacherIds(Long[] teacherIds) {
+        this.teacherIds = teacherIds;
     }
 
     @Override
