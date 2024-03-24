@@ -44,6 +44,12 @@ public class TeacherServiceImpl implements ITeacherService
         return teacherMapper.selectTeacherList(teacher);
     }
 
+    @Override
+    public List<Teacher> selectTeacherAll()
+    {
+        return teacherMapper.selectTeacherAll();
+    }
+
     /**
      * 新增教师
      * 

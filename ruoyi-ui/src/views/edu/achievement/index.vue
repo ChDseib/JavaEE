@@ -286,8 +286,11 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      this.open = true;
-      this.title = "添加教学成果";
+      getAchievement().then(response => {
+        this.teacherOptions = response.teachers;
+        this.open = true;
+        this.title = "添加教学成果";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

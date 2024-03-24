@@ -36,7 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null "> and t.dept_id = #{deptId}</if>
         </where>
     </select>
-    
+
+    <select id="selectTeacherAll" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+    </select>
+
     <select id="selectTeacherByTeacherId" parameterType="Long" resultMap="TeacherResult">
         <include refid="selectTeacherVo"/>
         where t.teacher_id = #{teacherId}

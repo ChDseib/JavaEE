@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { praseStrEmpty } from "@/utils/ruoyi";
 
 // 查询教学成果列表
 export function listAchievement(query) {
@@ -12,7 +13,7 @@ export function listAchievement(query) {
 // 查询教学成果详细
 export function getAchievement(achievementId) {
   return request({
-    url: '/edu/achievement/' + achievementId,
+    url: '/edu/achievement/' + praseStrEmpty(achievementId),
     method: 'get'
   })
 }

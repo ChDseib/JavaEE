@@ -1,6 +1,9 @@
 package com.ruoyi.edu.controller;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.edu.service.ITeacherService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +36,9 @@ public class AchievementController extends BaseController
     @Autowired
     private IAchievementService achievementService;
 
+    @Autowired
+    private ITeacherService teacherService;
+
     /**
      * 查询教学成果列表
      */
@@ -62,10 +68,16 @@ public class AchievementController extends BaseController
      * 获取教学成果详细信息
      */
     @PreAuthorize("@ss.hasPermi('edu:achievement:query')")
-    @GetMapping(value = "/{achievementId}")
-    public AjaxResult getInfo(@PathVariable("achievementId") Long achievementId)
+    @GetMapping(value = { "/", "/{achievementId}" })
+    public AjaxResult getInfo(@PathVariable(value = "achievementId", required = false) Long achievementId)
     {
-        return AjaxResult.success(achievementService.selectAchievementByAchievementId(achievementId));
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("teachers", teacherService.selectTeacherAll());
+        if (StringUtils.isNotNull(achievementId))
+        {
+            ajax.put(AjaxResult.DATA_TAG, achievementService.selectAchievementByAchievementId(achievementId));
+        }
+        return ajax;
     }
 
     /**

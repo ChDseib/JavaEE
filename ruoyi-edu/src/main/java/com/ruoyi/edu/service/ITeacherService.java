@@ -27,6 +27,8 @@ public interface ITeacherService
      */
     public List<Teacher> selectTeacherList(Teacher teacher);
 
+    public List<Teacher> selectTeacherAll();
+
     /**
      * 新增教师
      * 
