@@ -236,3 +236,20 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2065, '课程修改', 2062, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:edit', '#', 'admin', '2024-03-18 15:23:21', '', NULL, ''),
 (2066, '课程删除', 2062, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:remove', '#', 'admin', '2024-03-18 15:23:21', '', NULL, ''),
 (2067, '课程导出', 2062, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:course:export', '#', 'admin', '2024-03-18 15:23:21', '', NULL, '');
+
+CREATE TABLE `edu_achievement` (
+  `achievement_id` bigint NOT NULL AUTO_INCREMENT COMMENT '教学成果ID',
+  `achievement_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名称',
+  `level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '级别',
+  `grade` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '等级',
+  `issue_time` datetime DEFAULT NULL COMMENT '获奖时间',
+  PRIMARY KEY (`achievement_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教学成果表';
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2068, '教学成果', 5, 1, 'achievement', 'edu/achievement/index', NULL, 1, 0, 'C', '0', '0', 'edu:achievement:list', 'chart', 'admin', '2024-03-24 09:51:23', 'admin', '2024-03-24 09:52:50', '教学成果菜单'),
+(2069, '教学成果查询', 2068, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:query', '#', 'admin', '2024-03-24 09:51:23', '', NULL, ''),
+(2070, '教学成果新增', 2068, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:add', '#', 'admin', '2024-03-24 09:51:23', '', NULL, ''),
+(2071, '教学成果修改', 2068, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:edit', '#', 'admin', '2024-03-24 09:51:23', '', NULL, ''),
+(2072, '教学成果删除', 2068, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:remove', '#', 'admin', '2024-03-24 09:51:23', '', NULL, ''),
+(2073, '教学成果导出', 2068, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:achievement:export', '#', 'admin', '2024-03-24 09:51:23', '', NULL, '');
