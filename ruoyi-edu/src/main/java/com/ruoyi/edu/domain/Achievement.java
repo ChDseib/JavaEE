@@ -33,8 +33,8 @@ public class Achievement extends BaseEntity
     private String grade;
 
     /** 获奖时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "获奖时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM")
+    @Excel(name = "获奖时间", width = 30, dateFormat = "yyyy-MM")
     private Date issueTime;
 
     public void setAchievementId(Long achievementId) 

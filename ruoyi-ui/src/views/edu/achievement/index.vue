@@ -33,8 +33,8 @@
       <el-form-item label="获奖时间" prop="issueTime">
         <el-date-picker clearable size="small"
           v-model="queryParams.issueTime"
-          type="date"
-          value-format="yyyy-MM-dd"
+          type="month"
+          value-format="yyyy-MM"
           placeholder="选择获奖时间">
         </el-date-picker>
       </el-form-item>
@@ -93,7 +93,11 @@
 
     <el-table v-loading="loading" :data="achievementList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="教学成果ID" align="center" prop="achievementId" />
+      <el-table-column label="序号" type="index" align="center">
+        <template slot-scope="scope">
+          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="名称" align="center" prop="achievementName" />
       <el-table-column label="级别" align="center" prop="level">
         <template slot-scope="scope">
@@ -107,7 +111,7 @@
       </el-table-column>
       <el-table-column label="获奖时间" align="center" prop="issueTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.issueTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.issueTime, '{y}-{m}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -167,8 +171,8 @@
         <el-form-item label="获奖时间" prop="issueTime">
           <el-date-picker clearable size="small"
             v-model="form.issueTime"
-            type="date"
-            value-format="yyyy-MM-dd"
+            type="month"
+            value-format="yyyy-MM"
             placeholder="选择获奖时间">
           </el-date-picker>
         </el-form-item>
