@@ -73,6 +73,8 @@ public class AchievementServiceImpl implements IAchievementService
     @Override
     public int updateAchievement(Achievement achievement)
     {
+        achievementTeacherMapper.deleteAchievementTeacherByAchievementId(achievement.getAchievementId());
+        insertAchievementTeacher(achievement);
         return achievementMapper.updateAchievement(achievement);
     }
 
