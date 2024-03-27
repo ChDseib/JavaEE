@@ -61,5 +61,5 @@ public interface ITeacherService
      */
     public int deleteTeacherByTeacherId(Long teacherId);
 
-    List<Integer> selectTeacherListByAchievementId(Long achievementId);
+    List<Teacher> selectTeacherListByAchievementId(Long achievementId);
 }

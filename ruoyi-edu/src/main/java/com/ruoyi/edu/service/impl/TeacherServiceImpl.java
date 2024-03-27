@@ -101,7 +101,7 @@ public class TeacherServiceImpl implements ITeacherService
     }
 
     @Override
-    public List<Integer> selectTeacherListByAchievementId(Long achievementId) {
+    public List<Teacher> selectTeacherListByAchievementId(Long achievementId) {
         return teacherMapper.selectTeacherListByAchievementId(achievementId);
     }
 }

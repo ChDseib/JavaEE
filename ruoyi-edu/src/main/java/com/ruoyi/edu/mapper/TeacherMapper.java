@@ -61,5 +61,5 @@ public interface TeacherMapper
      */
     public int deleteTeacherByTeacherIds(Long[] teacherIds);
 
-    List<Integer> selectTeacherListByAchievementId(Long achievementId);
+    List<Teacher> selectTeacherListByAchievementId(Long achievementId);
 }

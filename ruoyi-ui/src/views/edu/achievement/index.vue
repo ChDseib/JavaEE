@@ -109,6 +109,11 @@
           <dict-tag :options="gradeOptions" :value="scope.row.grade"/>
         </template>
       </el-table-column>
+      <el-table-column label="负责人" align="center" prop="issueTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ concatArrayField(scope.row.teachers, 'teacherName') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="获奖时间" align="center" prop="issueTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.issueTime, '{y}-{m}') }}</span>
@@ -366,7 +371,11 @@ export default {
           this.download(response.msg);
           this.exportLoading = false;
         }).catch(() => {});
-    }
+    },
+    concatArrayField(arrayOfObjects, fieldName) {
+      const fieldValues = arrayOfObjects.map(obj => obj[fieldName]);
+      return fieldValues.join(', ');
+    },
   }
 };
 </script>

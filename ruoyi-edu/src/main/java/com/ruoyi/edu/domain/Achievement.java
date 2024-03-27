@@ -1,6 +1,8 @@
 package com.ruoyi.edu.domain;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -40,7 +42,9 @@ public class Achievement extends BaseEntity
     /** 负责人 */
     private Long[] teacherIds;
 
-    public void setAchievementId(Long achievementId) 
+    private List<Teacher> teachers;
+
+    public void setAchievementId(Long achievementId)
     {
         this.achievementId = achievementId;
     }
@@ -92,6 +96,14 @@ public class Achievement extends BaseEntity
 
     public void setTeacherIds(Long[] teacherIds) {
         this.teacherIds = teacherIds;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
     }
 
     @Override

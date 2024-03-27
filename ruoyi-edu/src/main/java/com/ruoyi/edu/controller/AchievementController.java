@@ -1,8 +1,10 @@
 package com.ruoyi.edu.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.edu.domain.Teacher;
 import com.ruoyi.edu.service.ITeacherService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,9 @@ public class AchievementController extends BaseController
     {
         startPage();
         List<Achievement> list = achievementService.selectAchievementList(achievement);
+        for (Achievement a: list) {
+            a.setTeachers(teacherService.selectTeacherListByAchievementId(a.getAchievementId()));
+        }
         return getDataTable(list);
     }
 
@@ -76,7 +81,11 @@ public class AchievementController extends BaseController
         if (StringUtils.isNotNull(achievementId))
         {
             ajax.put(AjaxResult.DATA_TAG, achievementService.selectAchievementByAchievementId(achievementId));
-            ajax.put("teacherIds", teacherService.selectTeacherListByAchievementId(achievementId));
+            List<Teacher> teachers = teacherService.selectTeacherListByAchievementId(achievementId);
+            List<Long> teacherIds = teachers.stream()
+                    .map(Teacher::getTeacherId)
+                    .collect(Collectors.toList());
+            ajax.put("teacherIds", teacherIds);
         }
         return ajax;
     }
