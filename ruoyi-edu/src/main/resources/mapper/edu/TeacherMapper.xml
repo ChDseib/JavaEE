@@ -41,6 +41,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTeacherVo"/>
     </select>
 
+    <select id="selectTeacherListByAchievementId" parameterType="Long" resultType="Integer">
+        select t.teacher_id
+        from edu_teacher t
+        left join edu_achievement_teacher at on at.teacher_id = t.teacher_id
+        left join edu_achievement a on a.achievement_id = at.achievement_id
+        where a.achievement_id = #{achievementId}
+    </select>
+
     <select id="selectTeacherByTeacherId" parameterType="Long" resultMap="TeacherResult">
         <include refid="selectTeacherVo"/>
         where t.teacher_id = #{teacherId}

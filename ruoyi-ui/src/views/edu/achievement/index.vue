@@ -312,6 +312,7 @@ export default {
       const achievementId = row.achievementId || this.ids
       getAchievement(achievementId).then(response => {
         this.form = response.data;
+        this.teacherOptions = response.teachers;
         this.form.teacherIds = response.teacherIds;
         this.open = true;
         this.title = "修改教学成果";

@@ -76,6 +76,7 @@ public class AchievementController extends BaseController
         if (StringUtils.isNotNull(achievementId))
         {
             ajax.put(AjaxResult.DATA_TAG, achievementService.selectAchievementByAchievementId(achievementId));
+            ajax.put("teacherIds", teacherService.selectTeacherListByAchievementId(achievementId));
         }
         return ajax;
     }

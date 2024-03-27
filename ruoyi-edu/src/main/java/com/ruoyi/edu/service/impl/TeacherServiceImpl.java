@@ -99,4 +99,9 @@ public class TeacherServiceImpl implements ITeacherService
     {
         return teacherMapper.deleteTeacherByTeacherId(teacherId);
     }
+
+    @Override
+    public List<Integer> selectTeacherListByAchievementId(Long achievementId) {
+        return teacherMapper.selectTeacherListByAchievementId(achievementId);
+    }
 }
