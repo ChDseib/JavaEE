@@ -98,23 +98,23 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="名称" align="center" prop="achievementName" />
-      <el-table-column label="级别" align="center" prop="level">
-        <template slot-scope="scope">
-          <dict-tag :options="levelOptions" :value="scope.row.level"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="等级" align="center" prop="grade">
-        <template slot-scope="scope">
-          <dict-tag :options="gradeOptions" :value="scope.row.grade"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="名称" align="center" prop="achievementName" width="300" />
       <el-table-column label="负责人" align="center" prop="issueTime" width="180">
         <template slot-scope="scope">
           <span>{{ concatArrayField(scope.row.teachers, 'teacherName') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="获奖时间" align="center" prop="issueTime" width="180">
+      <el-table-column label="级别" align="center" prop="level" width="90">
+        <template slot-scope="scope">
+          <dict-tag :options="levelOptions" :value="scope.row.level"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="等级" align="center" prop="grade" width="90">
+        <template slot-scope="scope">
+          <dict-tag :options="gradeOptions" :value="scope.row.grade"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="获奖时间" align="center" prop="issueTime" width="90">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.issueTime, '{y}-{m}') }}</span>
         </template>
