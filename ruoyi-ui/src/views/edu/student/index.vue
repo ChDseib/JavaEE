@@ -28,15 +28,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="部门ID" prop="deptId">
-        <el-input
-          v-model="queryParams.deptId"
-          placeholder="请输入部门ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -110,7 +101,7 @@
       <el-table-column label="姓名" align="center" prop="studentName" />
       <el-table-column label="学号" align="center" prop="studentCode" />
       <el-table-column label="班级" align="center" prop="className" />
-      <el-table-column label="部门ID" align="center" prop="deptId" />
+      <el-table-column label="部门" align="center" prop="dept.deptName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

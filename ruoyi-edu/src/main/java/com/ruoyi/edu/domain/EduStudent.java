@@ -1,5 +1,6 @@
 package com.ruoyi.edu.domain;
 
+import com.ruoyi.common.core.domain.entity.SysDept;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -33,6 +34,8 @@ public class EduStudent extends BaseEntity
     /** 部门ID */
     @Excel(name = "部门ID")
     private Long deptId;
+
+    private SysDept dept;
 
     public void setStudentId(Long studentId) 
     {
@@ -78,6 +81,14 @@ public class EduStudent extends BaseEntity
     public Long getDeptId() 
     {
         return deptId;
+    }
+
+    public SysDept getDept() {
+        return dept;
+    }
+
+    public void setDept(SysDept dept) {
+        this.dept = dept;
     }
 
     @Override
