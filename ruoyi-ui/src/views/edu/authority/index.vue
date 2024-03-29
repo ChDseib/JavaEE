@@ -90,7 +90,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -151,6 +151,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        authorityName: [
+          { required: true, message: '机构名称不能为空', trigger: 'blur' },
+          { max: 20, message: '机构名称最大长度为20个汉字', trigger: 'blur' }        ]
       }
     };
   },
