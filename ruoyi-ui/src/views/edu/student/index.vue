@@ -142,8 +142,8 @@
         <el-form-item label="班级" prop="className">
           <el-input v-model="form.className" placeholder="请输入班级" />
         </el-form-item>
-        <el-form-item label="部门ID" prop="deptId">
-          <el-input v-model="form.deptId" placeholder="请输入部门ID" />
+        <el-form-item label="部门" prop="deptId">
+          <treeselect v-model="form.deptId" :options="deptOptions" :normalizer="normalizer" placeholder="请选择部门" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -186,10 +186,14 @@
 <script>
 import { listStudent, getStudent, delStudent, addStudent, updateStudent, exportStudent } from "@/api/edu/student";
 import {getToken} from "@/utils/auth";
+import { listDept } from "@/api/system/dept";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import {importTemplate} from "@/api/edu/student";
 
 export default {
   name: "Student",
+  components: { Treeselect },
   data() {
     return {
       // 遮罩层
@@ -236,6 +240,8 @@ export default {
         // 上传的地址
         url: process.env.VUE_APP_BASE_API + "/edu/student/importData"
       },
+      // 部门树选项
+      deptOptions: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -245,8 +251,22 @@ export default {
   },
   created() {
     this.getList();
+    listDept().then(response => {
+        this.deptOptions = this.handleTree(response.data, "deptId");
+    });
   },
   methods: {
+    /** 转换部门数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.deptId,
+        label: node.deptName,
+        children: node.children
+      };
+    },
     /** 查询学生列表 */
     getList() {
       this.loading = true;
