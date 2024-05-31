@@ -25,13 +25,14 @@
         />
       </el-form-item>
       <el-form-item label="作者次序" prop="authorOrder">
-        <el-input
-          v-model="queryParams.authorOrder"
-          placeholder="请输入作者次序"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.authorOrder" placeholder="请选择作者次序" clearable size="small">
+          <el-option
+            v-for="dict in authorOrderOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="出版时间" prop="issueTime">
         <el-date-picker clearable size="small"
@@ -45,15 +46,6 @@
         <el-input
           v-model="queryParams.publisher"
           placeholder="请输入出版社"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="附件" prop="fileUrl">
-        <el-input
-          v-model="queryParams.fileUrl"
-          placeholder="请输入附件"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -121,15 +113,17 @@
       </el-table-column>
       <el-table-column label="教师" align="center" prop="teacher.teacherName" />
       <el-table-column label="教材名称" align="center" prop="textbookName" />
-      <el-table-column label="作者次序" align="center" prop="authorOrder" />
+      <el-table-column label="作者次序" align="center" prop="authorOrder">
+        <template slot-scope="scope">
+          <dict-tag :options="authorOrderOptions" :value="scope.row.authorOrder"/>
+        </template>
+      </el-table-column>
       <el-table-column label="出版时间" align="center" prop="issueTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.issueTime, '{y}-{m}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="出版社" align="center" prop="publisher" />
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件" align="center" prop="fileUrl" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -179,7 +173,14 @@
           <el-input v-model="form.textbookName" placeholder="请输入教材名称" />
         </el-form-item>
         <el-form-item label="作者次序" prop="authorOrder">
-          <el-input v-model="form.authorOrder" placeholder="请输入作者次序" />
+          <el-select v-model="form.authorOrder" placeholder="请选择作者次序">
+            <el-option
+              v-for="dict in authorOrderOptions"
+              :key="dict.dictValue"
+              :label="dict.dictLabel"
+              :value="dict.dictValue"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="出版时间" prop="issueTime">
           <el-date-picker clearable size="small"
@@ -235,6 +236,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 作者次序字典
+      authorOrderOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -260,6 +263,9 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("edu_author_order").then(response => {
+      this.authorOrderOptions = response.data;
+    });
   },
   methods: {
     /** 按姓名查询教师 */

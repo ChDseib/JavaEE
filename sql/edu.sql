@@ -278,3 +278,10 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`
 (2077, '出版教材修改', 2074, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:edit', '#', 'admin', '2024-05-31 18:55:13', '', NULL, ''),
 (2078, '出版教材删除', 2074, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:remove', '#', 'admin', '2024-05-31 18:55:13', '', NULL, ''),
 (2079, '出版教材导出', 2074, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:export', '#', 'admin', '2024-05-31 18:55:13', '', NULL, '');
+
+INSERT INTO `sys_dict_type` (`dict_id`, `dict_name`, `dict_type`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(104, '作者次序', 'edu_author_order', '0', 'admin', '2024-05-31 19:43:27', 'admin', '2024-05-31 19:43:40', '作者次序列表');
+INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(118, 1, '第一作者', '1', 'edu_author_order', NULL, 'default', 'N', '0', 'admin', '2024-05-31 19:43:55', '', NULL, NULL),
+(119, 2, '第二作者', '2', 'edu_author_order', NULL, 'default', 'N', '0', 'admin', '2024-05-31 19:44:10', '', NULL, NULL),
+(120, 3, '第三作者', '3', 'edu_author_order', NULL, 'default', 'N', '0', 'admin', '2024-05-31 19:44:19', '', NULL, NULL);
