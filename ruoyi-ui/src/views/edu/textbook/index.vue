@@ -1,14 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="教师ID" prop="teacherId">
-        <el-input
-          v-model="queryParams.teacherId"
-          placeholder="请输入教师ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="教师" prop="teacherId">
+        <el-select v-model="queryParams.teacherId" placeholder="请输入姓名" clearable size="small"
+          filterable
+          remote
+          :remote-method="searchTeacher"
+          :loading="loading">
+          <el-option
+            v-for="item in teacherOptions"
+            :key="item.teacherId"
+            :label="item.teacherName"
+            :value="item.teacherId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="教材名称" prop="textbookName">
         <el-input
@@ -156,8 +161,19 @@
     <!-- 添加或修改出版教材对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="教师ID" prop="teacherId">
-          <el-input v-model="form.teacherId" placeholder="请输入教师ID" />
+        <el-form-item label="教师" prop="teacherId">
+          <el-select v-model="form.teacherId" placeholder="请输入姓名" clearable size="small"
+            filterable
+            remote
+            :remote-method="searchTeacher"
+            :loading="loading">
+            <el-option
+              v-for="item in teacherOptions"
+              :key="item.teacherId"
+              :label="item.teacherName"
+              :value="item.teacherId">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="教材名称" prop="textbookName">
           <el-input v-model="form.textbookName" placeholder="请输入教材名称" />
@@ -193,6 +209,7 @@
 
 <script>
 import { listTextbook, getTextbook, delTextbook, addTextbook, updateTextbook, exportTextbook } from "@/api/edu/textbook";
+import { listTeacher } from "@/api/edu/teacher";
 
 export default {
   name: "Textbook",
@@ -229,10 +246,15 @@ export default {
         publisher: null,
         fileUrl: null
       },
+      // 教师选项
+      teacherOptions: [],
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        teacherId: [
+          { required: true, message: "教师不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -240,6 +262,22 @@ export default {
     this.getList();
   },
   methods: {
+    /** 按姓名查询教师 */
+    searchTeacher(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          listTeacher({ teacherName: query }).then(response => {
+            this.teacherOptions = response.rows.filter(item => {
+              return item.teacherName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            });
+            this.loading = false;
+          });
+        }, 200);
+      } else {
+        this.teacherOptions = [];
+      }
+    },
     /** 查询出版教材列表 */
     getList() {
       this.loading = true;
@@ -296,6 +334,7 @@ export default {
       const textbookId = row.textbookId || this.ids
       getTextbook(textbookId).then(response => {
         this.form = response.data;
+        this.teacherOptions = [response.data.teacher];
         this.open = true;
         this.title = "修改出版教材";
       });
