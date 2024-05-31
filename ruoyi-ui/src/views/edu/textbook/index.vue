@@ -114,7 +114,7 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="教师ID" align="center" prop="teacherId" />
+      <el-table-column label="教师" align="center" prop="teacher.teacherName" />
       <el-table-column label="教材名称" align="center" prop="textbookName" />
       <el-table-column label="作者次序" align="center" prop="authorOrder" />
       <el-table-column label="出版时间" align="center" prop="issueTime" width="180">
@@ -144,7 +144,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"

@@ -24,6 +24,9 @@ public class Textbook extends BaseEntity
     @Excel(name = "教师ID")
     private Long teacherId;
 
+    @Excel(name = "教师姓名", targetAttr = "teacherName")
+    private Teacher teacher;
+
     /** 教材名称 */
     @Excel(name = "教材名称")
     private String textbookName;
@@ -107,6 +110,14 @@ public class Textbook extends BaseEntity
     public String getFileUrl() 
     {
         return fileUrl;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     @Override

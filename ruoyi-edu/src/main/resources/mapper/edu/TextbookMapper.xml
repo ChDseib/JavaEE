@@ -13,27 +13,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="publisher"    column="publisher"    />
         <result property="remark"    column="remark"    />
         <result property="fileUrl"    column="file_url"    />
+        <association property="teacher" javaType="Teacher" resultMap="teacherResult"/>
+    </resultMap>
+
+    <resultMap id="teacherResult" type="Teacher">
+        <id     property="teacherId"       column="teacher_id"     />
+        <result property="teacherName"     column="teacher_name"   />
+        <result property="teacherCode"     column="teacher_code"   />
     </resultMap>
 
     <sql id="selectTextbookVo">
-        select textbook_id, teacher_id, textbook_name, author_order, issue_time, publisher, remark, file_url from edu_textbook
+        select t.textbook_id, t.teacher_id, t.textbook_name, t.author_order, t.issue_time, t.publisher, t.remark, t.file_url,
+            r.teacher_name, r.teacher_code
+        from edu_textbook t
+        left join edu_teacher r on t.teacher_id = r.teacher_id
     </sql>
 
     <select id="selectTextbookList" parameterType="Textbook" resultMap="TextbookResult">
         <include refid="selectTextbookVo"/>
         <where>  
-            <if test="teacherId != null "> and teacher_id = #{teacherId}</if>
-            <if test="textbookName != null  and textbookName != ''"> and textbook_name like concat('%', #{textbookName}, '%')</if>
-            <if test="authorOrder != null  and authorOrder != ''"> and author_order = #{authorOrder}</if>
-            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
-            <if test="publisher != null  and publisher != ''"> and publisher = #{publisher}</if>
-            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="teacherId != null "> and t.teacher_id = #{teacherId}</if>
+            <if test="textbookName != null  and textbookName != ''"> and t.textbook_name like concat('%', #{textbookName}, '%')</if>
+            <if test="authorOrder != null  and authorOrder != ''"> and t.author_order = #{authorOrder}</if>
+            <if test="issueTime != null "> and t.issue_time = #{issueTime}</if>
+            <if test="publisher != null  and publisher != ''"> and t.publisher = #{publisher}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and t.file_url = #{fileUrl}</if>
         </where>
     </select>
     
     <select id="selectTextbookByTextbookId" parameterType="Long" resultMap="TextbookResult">
         <include refid="selectTextbookVo"/>
-        where textbook_id = #{textbookId}
+        where t.textbook_id = #{textbookId}
     </select>
         
     <insert id="insertTextbook" parameterType="Textbook" useGeneratedKeys="true" keyProperty="textbookId">
