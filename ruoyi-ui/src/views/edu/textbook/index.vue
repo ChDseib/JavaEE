@@ -196,8 +196,8 @@
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="附件" prop="fileUrl">
-          <el-input v-model="form.fileUrl" placeholder="请输入附件" />
+        <el-form-item label="附件">
+          <fileUpload v-model="form.fileUrl"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
