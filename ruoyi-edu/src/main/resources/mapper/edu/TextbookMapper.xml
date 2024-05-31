@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.edu.mapper.TextbookMapper">
+    
+    <resultMap type="Textbook" id="TextbookResult">
+        <result property="textbookId"    column="textbook_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="textbookName"    column="textbook_name"    />
+        <result property="authorOrder"    column="author_order"    />
+        <result property="issueTime"    column="issue_time"    />
+        <result property="publisher"    column="publisher"    />
+        <result property="remark"    column="remark"    />
+        <result property="fileUrl"    column="file_url"    />
+    </resultMap>
+
+    <sql id="selectTextbookVo">
+        select textbook_id, teacher_id, textbook_name, author_order, issue_time, publisher, remark, file_url from edu_textbook
+    </sql>
+
+    <select id="selectTextbookList" parameterType="Textbook" resultMap="TextbookResult">
+        <include refid="selectTextbookVo"/>
+        <where>  
+            <if test="teacherId != null "> and teacher_id = #{teacherId}</if>
+            <if test="textbookName != null  and textbookName != ''"> and textbook_name like concat('%', #{textbookName}, '%')</if>
+            <if test="authorOrder != null  and authorOrder != ''"> and author_order = #{authorOrder}</if>
+            <if test="issueTime != null "> and issue_time = #{issueTime}</if>
+            <if test="publisher != null  and publisher != ''"> and publisher = #{publisher}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectTextbookByTextbookId" parameterType="Long" resultMap="TextbookResult">
+        <include refid="selectTextbookVo"/>
+        where textbook_id = #{textbookId}
+    </select>
+        
+    <insert id="insertTextbook" parameterType="Textbook" useGeneratedKeys="true" keyProperty="textbookId">
+        insert into edu_textbook
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="textbookName != null">textbook_name,</if>
+            <if test="authorOrder != null">author_order,</if>
+            <if test="issueTime != null">issue_time,</if>
+            <if test="publisher != null">publisher,</if>
+            <if test="remark != null">remark,</if>
+            <if test="fileUrl != null">file_url,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="textbookName != null">#{textbookName},</if>
+            <if test="authorOrder != null">#{authorOrder},</if>
+            <if test="issueTime != null">#{issueTime},</if>
+            <if test="publisher != null">#{publisher},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTextbook" parameterType="Textbook">
+        update edu_textbook
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="textbookName != null">textbook_name = #{textbookName},</if>
+            <if test="authorOrder != null">author_order = #{authorOrder},</if>
+            <if test="issueTime != null">issue_time = #{issueTime},</if>
+            <if test="publisher != null">publisher = #{publisher},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+        </trim>
+        where textbook_id = #{textbookId}
+    </update>
+
+    <delete id="deleteTextbookByTextbookId" parameterType="Long">
+        delete from edu_textbook where textbook_id = #{textbookId}
+    </delete>
+
+    <delete id="deleteTextbookByTextbookIds" parameterType="String">
+        delete from edu_textbook where textbook_id in 
+        <foreach item="textbookId" collection="array" open="(" separator="," close=")">
+            #{textbookId}
+        </foreach>
+    </delete>
+</mapper>

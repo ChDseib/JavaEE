@@ -258,3 +258,23 @@ CREATE TABLE `edu_achievement_teacher` (
   `achievement_id` bigint DEFAULT NULL,
   `teacher_id` bigint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教学成果与教师关联表';
+
+CREATE TABLE `edu_textbook` (
+  `textbook_id` bigint NOT NULL AUTO_INCREMENT COMMENT '教材ID',
+  `teacher_id` bigint DEFAULT NULL COMMENT '教师ID',
+  `textbook_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教材名称',
+  `author_order` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '作者次序',
+  `issue_time` datetime DEFAULT NULL COMMENT '出版时间',
+  `publisher` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '出版社',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '附件',
+  PRIMARY KEY (`textbook_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教材表';
+
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES
+(2074, '出版教材', 5, 1, 'textbook', 'edu/textbook/index', NULL, 1, 0, 'C', '0', '0', 'edu:textbook:list', 'education', 'admin', '2024-05-31 18:55:13', 'admin', '2024-05-31 18:57:00', '出版教材菜单'),
+(2075, '出版教材查询', 2074, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:query', '#', 'admin', '2024-05-31 18:55:13', '', NULL, ''),
+(2076, '出版教材新增', 2074, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:add', '#', 'admin', '2024-05-31 18:55:13', '', NULL, ''),
+(2077, '出版教材修改', 2074, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:edit', '#', 'admin', '2024-05-31 18:55:13', '', NULL, ''),
+(2078, '出版教材删除', 2074, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:remove', '#', 'admin', '2024-05-31 18:55:13', '', NULL, ''),
+(2079, '出版教材导出', 2074, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'edu:textbook:export', '#', 'admin', '2024-05-31 18:55:13', '', NULL, '');
