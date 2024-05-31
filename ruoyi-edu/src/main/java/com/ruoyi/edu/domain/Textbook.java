@@ -33,8 +33,8 @@ public class Textbook extends BaseEntity
     private String authorOrder;
 
     /** 出版时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "出版时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM")
+    @Excel(name = "出版时间", width = 30, dateFormat = "yyyy-MM")
     private Date issueTime;
 
     /** 出版社 */
