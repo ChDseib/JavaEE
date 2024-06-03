@@ -46,17 +46,6 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="获奖时间" prop="issueTime">
-        <el-date-picker
-          clearable
-          size="small"
-          v-model="queryParams.issueTime"
-          type="month"
-          value-format="yyyy-MM"
-          placeholder="选择获奖时间"
-        >
-        </el-date-picker>
-      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"

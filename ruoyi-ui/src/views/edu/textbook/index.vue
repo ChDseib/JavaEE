@@ -34,23 +34,6 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="出版时间" prop="issueTime">
-        <el-date-picker clearable size="small"
-          v-model="queryParams.issueTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择出版时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="出版社" prop="publisher">
-        <el-input
-          v-model="queryParams.publisher"
-          placeholder="请输入出版社"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
