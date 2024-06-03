@@ -36,7 +36,6 @@ public class EduAuthorityController extends BaseController
     /**
      * 查询认证机构列表
      */
-    @PreAuthorize("@ss.hasPermi('edu:authority:list')")
     @GetMapping("/list")
     public TableDataInfo list(EduAuthority eduAuthority)
     {

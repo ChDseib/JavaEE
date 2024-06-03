@@ -36,7 +36,6 @@ public class TeacherController extends BaseController
     /**
      * 查询教师列表
      */
-    @PreAuthorize("@ss.hasPermi('edu:teacher:list')")
     @GetMapping("/list")
     public TableDataInfo list(Teacher teacher)
     {

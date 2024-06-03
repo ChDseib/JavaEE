@@ -36,7 +36,6 @@ public class EduContestController extends BaseController
     /**
      * 查询竞赛管理列表
      */
-    @PreAuthorize("@ss.hasPermi('edu:contest:list')")
     @GetMapping("/list")
     public TableDataInfo list(EduContest eduContest)
     {
