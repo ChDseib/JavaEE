@@ -31,21 +31,23 @@ public class EduAward extends BaseEntity
     })
     private EduStudent student;
 
-    /** 竞赛ID */
-    private Long contestId;
-
-    @Excels({
-            @Excel(name = "竞赛", targetAttr = "contestName", type = Excel.Type.EXPORT)
-    })
-    private EduContest contest;
-
     /** 等级 */
     @Excel(name = "等级", dictType = "edu_award_grade")
     private String grade;
 
+    /** 竞赛ID */
+    private Long contestId;
+
+    @Excels({
+            @Excel(name = "竞赛名称", targetAttr = "contestName", type = Excel.Type.EXPORT, width = 30),
+            @Excel(name = "竞赛级别", targetAttr = "level", type = Excel.Type.EXPORT, dictType = "edu_contest_level"),
+            @Excel(name = "组织者", targetAttr = "organizer", type = Excel.Type.EXPORT, width = 30)
+    })
+    private EduContest contest;
+
     /** 获奖时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "获奖时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "获奖时间", dateFormat = "yyyy-MM-dd")
     private Date issueTime;
 
     /** 指导老师 */

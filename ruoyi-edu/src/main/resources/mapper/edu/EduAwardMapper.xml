@@ -31,11 +31,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap id="contestResult" type="EduContest">
         <id     property="contestId"       column="contest_id"     />
         <result property="contestName"     column="contest_name"   />
+        <result property="level"    column="level"    />
+        <result property="organizer"    column="organizer"    />
     </resultMap>
 
     <sql id="selectEduAwardVo">
         select a.award_id, a.student_id, a.contest_id, a.grade, a.issue_time, a.teacher_name, a.file_url, a.team_name, a.create_by, a.create_time, a.update_by, a.update_time,
-            s.student_name, s.student_code, s.class_name, c.contest_name
+            s.student_name, s.student_code, s.class_name, c.contest_name, c.level, c.organizer
         from edu_award a
             left join edu_student s on a.student_id = s.student_id
             left join edu_contest c on a.contest_id = c.contest_id
