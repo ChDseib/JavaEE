@@ -1,0 +1,36 @@
+# 项目相关配置
+ruoyi:
+  # 文件路径
+  profile: /root/ruoyi-vue-cas/files
+# 生产环境配置
+server:
+  # 服务器的HTTP端口
+  port: 82
+#CAS
+cas:
+  server:
+    host:
+      #CAS服务地址
+      url: https://authserver.sandau.edu.cn/authserver
+app:
+  #开启cas
+  casEnable: false
+  server:
+    host:
+      url: http://10.200.30.100:${server.port}
+  #应用登录地址
+  login_url: /
+  #应用登出地址
+  logout_url: /logout
+  #前端登录地址
+  web_url: http://10.200.30.100:81/index
+
+# 数据源配置
+spring:
+  datasource:
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://10.200.30.101:3306/cams-test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
