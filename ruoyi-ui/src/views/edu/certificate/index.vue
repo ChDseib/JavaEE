@@ -34,14 +34,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="认证时间" prop="issueTime">
-        <el-date-picker clearable size="small"
-          v-model="queryParams.issueTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择认证时间">
-        </el-date-picker>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
