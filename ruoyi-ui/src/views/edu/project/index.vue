@@ -10,6 +10,34 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="项目类型" prop="projectType">
+        <el-select v-model="queryParams.projectType" placeholder="请选择项目类型" clearable size="small">
+          <el-option
+            v-for="dict in projectTypeOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择状态" clearable size="small">
+          <el-option
+            v-for="dict in statusOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="时间" prop="issueTime">
+        <el-date-picker clearable size="small"
+          v-model="queryParams.issueTime"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="选择时间">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -67,6 +95,21 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="项目ID" align="center" prop="projectId" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="项目类型" align="center" prop="projectType">
+        <template slot-scope="scope">
+          <dict-tag :options="projectTypeOptions" :value="scope.row.projectType"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="statusOptions" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="时间" align="center" prop="issueTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.issueTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -100,6 +143,33 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="项目名称" prop="projectName">
           <el-input v-model="form.projectName" placeholder="请输入项目名称" />
+        </el-form-item>
+        <el-form-item label="项目类型" prop="projectType">
+          <el-select v-model="form.projectType" placeholder="请选择项目类型">
+            <el-option
+              v-for="dict in projectTypeOptions"
+              :key="dict.dictValue"
+              :label="dict.dictLabel"
+              :value="dict.dictValue"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in statusOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="时间" prop="issueTime">
+          <el-date-picker clearable size="small"
+            v-model="form.issueTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择时间">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -137,11 +207,18 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 项目类型字典
+      projectTypeOptions: [],
+      // 状态字典
+      statusOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        projectName: null
+        projectName: null,
+        projectType: null,
+        status: null,
+        issueTime: null
       },
       // 表单参数
       form: {},
@@ -152,6 +229,12 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("edu_project_type").then(response => {
+      this.projectTypeOptions = response.data;
+    });
+    this.getDicts("edu_project_status").then(response => {
+      this.statusOptions = response.data;
+    });
   },
   methods: {
     /** 查询项目列表 */
@@ -172,7 +255,10 @@ export default {
     reset() {
       this.form = {
         projectId: null,
-        projectName: null
+        projectName: null,
+        projectType: null,
+        status: "0",
+        issueTime: null
       };
       this.resetForm("form");
     },

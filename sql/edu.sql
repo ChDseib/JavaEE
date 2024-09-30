@@ -313,6 +313,8 @@ values('项目导出',
 CREATE TABLE `edu_project` (
                                `project_id` bigint NOT NULL AUTO_INCREMENT COMMENT '项目ID',
                                `project_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目名称',
+                               `project_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目类型',
+                               `status` char(1) DEFAULT NULL COMMENT '状态',
+                               `issue_time` datetime DEFAULT NULL COMMENT '时间',
                                PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='项目表';
-
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='项目表';

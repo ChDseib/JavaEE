@@ -24,7 +24,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 项目Controller
  * 
  * @author sanda
- * @date 2024-09-23
+ * @date 2024-09-30
  */
 @RestController
 @RequestMapping("/edu/project")
