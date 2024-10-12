@@ -230,8 +230,14 @@ export default {
   },
   created() {
     this.getList();
+    this.loadTeachers();
   },
   methods: {
+    loadTeachers() {
+      listTeacher().then(response => {
+        this.teacherOptions = response.rows;
+      });
+    },
     /** 查询社会活动列表 */
     getList() {
       this.loading = true;
