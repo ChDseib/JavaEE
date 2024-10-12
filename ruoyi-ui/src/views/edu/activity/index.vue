@@ -1,48 +1,38 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="教师" prop="teacherId">
-        <el-select v-model="queryParams.teacherId" placeholder="请输入姓名" clearable size="small"
-                   filterable
-                   remote
-                   :remote-method="searchTeacher"
-                   :loading="loading">
-          <el-option
-            v-for="item in teacherOptions"
-            :key="item.teacherId"
-            :label="item.teacherName"
-            :value="item.teacherId">
-          </el-option>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="教师" prop="teacherId">
+            <el-select v-model="queryParams.teacherId" placeholder="请输入姓名" clearable size="small"
+                       filterable
+                       remote
+                       :remote-method="searchTeacher"
+                       :loading="loading">
+              <el-option
+                v-for="item in teacherOptions"
+                :key="item.teacherId"
+                :label="item.teacherName"
+                :value="item.teacherId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
 
-        </el-select>
-      </el-form-item>
+        <el-col :span="12">
+          <el-form-item label="时间" prop="issueTime">
+            <el-date-picker clearable size="small"
+                            v-model="queryParams.issueTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择活动时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
       <el-table-column label="教师" align="center" prop="teacher.teacherName"/>
-      <el-form-item label="活动详情" prop="detail">
-        <el-input
-          v-model="queryParams.detail"
-          placeholder="请输入活动详情"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="活动时间" prop="issueTime">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.issueTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择活动时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="附件" prop="fileUrl">
-        <el-input
-          v-model="queryParams.fileUrl"
-          placeholder="请输入附件"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
