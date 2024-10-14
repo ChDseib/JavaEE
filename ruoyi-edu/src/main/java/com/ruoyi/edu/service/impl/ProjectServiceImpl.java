@@ -1,6 +1,9 @@
 package com.ruoyi.edu.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.edu.domain.ProjectTeacher;
+import com.ruoyi.edu.mapper.ProjectTeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.edu.mapper.ProjectMapper;
@@ -19,6 +22,9 @@ public class ProjectServiceImpl implements IProjectService
     @Autowired
     private ProjectMapper projectMapper;
 
+
+    @Autowired
+    private ProjectTeacherMapper projectTeacherMapper;
     /**
      * 查询项目
      * 
@@ -52,7 +58,15 @@ public class ProjectServiceImpl implements IProjectService
     @Override
     public int insertProject(Project project)
     {
-        return projectMapper.insertProject(project);
+        int rows = projectMapper.insertProject(project);
+        for (Long teacherId: project.getTeacherIds()) {
+            ProjectTeacher pt = new ProjectTeacher();
+            pt.setProjectId(project.getProjectId());
+            pt.setTeacherId(teacherId);
+            projectTeacherMapper.insertProjectTeacher(pt);
+        }
+
+        return rows;
     }
 
     /**
@@ -64,9 +78,25 @@ public class ProjectServiceImpl implements IProjectService
     @Override
     public int updateProject(Project project)
     {
+        projectTeacherMapper.deleteByProjectId(project.getProjectId());
+
+        insertProjectTeacher(project);
         return projectMapper.updateProject(project);
     }
+    private void insertProjectTeacher(Project project) {
 
+        for (Long teacherId : project.getTeacherIds()) {
+
+            ProjectTeacher pt = new ProjectTeacher();
+
+            pt.setProjectId(project.getProjectId());
+
+            pt.setTeacherId(teacherId);
+
+            projectTeacherMapper.insertProjectTeacher(pt);
+
+        }
+    }
     /**
      * 批量删除项目
      * 
@@ -76,6 +106,7 @@ public class ProjectServiceImpl implements IProjectService
     @Override
     public int deleteProjectByProjectIds(Long[] projectIds)
     {
+
         return projectMapper.deleteProjectByProjectIds(projectIds);
     }
 
@@ -88,6 +119,7 @@ public class ProjectServiceImpl implements IProjectService
     @Override
     public int deleteProjectByProjectId(Long projectId)
     {
+        projectTeacherMapper.deleteByProjectId(projectId);
         return projectMapper.deleteProjectByProjectId(projectId);
     }
 }

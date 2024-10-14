@@ -1,6 +1,8 @@
 package com.ruoyi.edu.domain;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -36,6 +38,24 @@ public class Project extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date issueTime;
+
+
+    private List<Teacher> teachers;
+
+    private Long[] teacherIds;
+
+    public Long[] getTeacherIds() {
+        return teacherIds;
+    }
+    public void setTeacherIds(Long[] teacherIds) {
+        this.teacherIds = teacherIds;
+    }
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
 
     public void setProjectId(Long projectId) 
     {

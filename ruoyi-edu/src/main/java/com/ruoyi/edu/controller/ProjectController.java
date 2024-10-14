@@ -1,6 +1,9 @@
 package com.ruoyi.edu.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.ruoyi.edu.domain.Teacher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +35,7 @@ public class ProjectController extends BaseController
 {
     @Autowired
     private IProjectService projectService;
+    private Teacher teacher;
 
     /**
      * 查询项目列表
@@ -65,7 +69,12 @@ public class ProjectController extends BaseController
     @GetMapping(value = "/{projectId}")
     public AjaxResult getInfo(@PathVariable("projectId") Long projectId)
     {
-        return AjaxResult.success(projectService.selectProjectByProjectId(projectId));
+        Project project = projectService.selectProjectByProjectId(projectId);
+        Long[] teacherIds = project.getTeachers().stream()
+                .map(Teacher::getTeacherId)
+                .collect(Collectors.toList()).toArray(Long[]::new);
+        project.setTeacherIds(teacherIds);
+        return AjaxResult.success(project);
     }
 
     /**

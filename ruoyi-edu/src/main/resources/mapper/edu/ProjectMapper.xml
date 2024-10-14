@@ -10,11 +10,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="projectType"    column="project_type"    />
         <result property="status"    column="status"    />
         <result property="issueTime"    column="issue_time"    />
+        <collection property="teachers" javaType="java.util.List" resultMap="TeacherResult" />
     </resultMap>
 
     <sql id="selectProjectVo">
-        select project_id, project_name, project_type, status, issue_time from edu_project
+        select edu_project.project_id, project_name, project_type, status, issue_time , edu_teacher.teacher_id, teacher_name from edu_project
+            left join edu_project_teacher on edu_project.project_id = edu_project_teacher.project_id
+            left join edu_teacher on edu_teacher.teacher_id = edu_project_teacher.teacher_id
+
     </sql>
+    <resultMap id="TeacherResult" type="Teacher">
+        <id property="teacherId" column="teacher_id" />
+        <result property="teacherName" column="teacher_name" />
+    </resultMap>
 
     <select id="selectProjectList" parameterType="Project" resultMap="ProjectResult">
         <include refid="selectProjectVo"/>
@@ -28,10 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectProjectByProjectId" parameterType="Long" resultMap="ProjectResult">
         <include refid="selectProjectVo"/>
-        where project_id = #{projectId}
+        where edu_project.project_id = #{projectId}
     </select>
-        
-    <insert id="insertProject" parameterType="Project" useGeneratedKeys="true" keyProperty="projectId">
+
+
+    <insert id="insertProject" parameterType="Project" keyProperty="projectId">
         insert into edu_project
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="projectName != null">project_name,</if>

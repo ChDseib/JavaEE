@@ -94,6 +94,12 @@
     <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="项目ID" align="center" prop="projectId" />
+      <el-table-column label="负责人" align="center" width="180">
+        <template slot-scope="scope">
+          <span>{{ concatArrayField(scope.row.teachers, 'teacherName') }}</span>
+        </template>
+
+      </el-table-column>
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="项目类型" align="center" prop="projectType">
         <template slot-scope="scope">
@@ -129,7 +135,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -143,6 +149,18 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="项目名称" prop="projectName">
           <el-input v-model="form.projectName" placeholder="请输入项目名称" />
+        </el-form-item>
+        <el-form-item label="负责人">
+          <el-select v-model="form.teacherIds" multiple placeholder="请选择">
+            <el-option
+              v-for="item in teacherOptions"
+              :key="item.teacherId"
+              :label="item.teacherName"
+              :value="item.teacherId"
+            ></el-option>
+
+          </el-select>
+
         </el-form-item>
         <el-form-item label="项目类型" prop="projectType">
           <el-select v-model="form.projectType" placeholder="请选择项目类型">
@@ -182,11 +200,14 @@
 
 <script>
 import { listProject, getProject, delProject, addProject, updateProject, exportProject } from "@/api/edu/project";
+import { listTeacher } from "@/api/edu/teacher";
 
 export default {
   name: "Project",
   data() {
     return {
+      // 教师选项
+      teacherOptions: [],
       // 遮罩层
       loading: true,
       // 导出遮罩层
@@ -237,6 +258,10 @@ export default {
     });
   },
   methods: {
+    concatArrayField(arrayOfObjects, fieldName) {
+      const fieldValues = arrayOfObjects.map(obj => obj[fieldName]);
+      return fieldValues.join(', ');
+    },
     /** 查询项目列表 */
     getList() {
       this.loading = true;
@@ -283,6 +308,10 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加项目";
+      // 教师选项
+      listTeacher().then(response => {
+        this.teacherOptions = response.rows;
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -292,6 +321,9 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改项目";
+      });
+      listTeacher().then(response => {
+        this.teacherOptions = response.rows;
       });
     },
     /** 提交按钮 */
